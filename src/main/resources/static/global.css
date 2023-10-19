@@ -1,0 +1,15 @@
+html, body {
+    padding: 0;
+    margin: 0;
+    width: 100vw;
+    min-height: 100vh;
+
+    font-family: system-ui;
+
+    display: grid;
+    place-items: center;
+}
+
+* {
+    box-sizing: border-box;
+}
