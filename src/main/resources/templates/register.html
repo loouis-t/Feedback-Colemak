@@ -11,25 +11,26 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form>
+    <form action="/register" method="POST">
         <h3 class="form-title">Welcome</h3>
 
-        <label class="form-label" for="username">Surname</label>
-        <input class="form-input" type="text" placeholder="Surname" id="surname">
+        <label class="form-label" for="name">First Name</label>
+        <input class="form-input" type="text" placeholder="First Name" id="name" name="name" required>
 
-        <label class="form-label" for="username">Firstname</label>
-        <input class="form-input" type="text" placeholder="Firstname" id="firstname">
+        <label class="form-label" for="surname">Last Name</label>
+        <input class="form-input" type="text" placeholder="Last Name" id="surname" name="surname" required>
 
-        <label class="form-label" for="username">Username</label>
-        <input class="form-input" type="text" placeholder="Email" id="username">
+        <label class="form-label" for="email">Email</label>
+        <input class="form-input" type="text" placeholder="Email" id="email" name="email" required>
 
         <label class="form-label" for="password">Password</label>
-        <input class="form-input" type="password" placeholder="Password" id="password">
+        <input class="form-input" type="password" placeholder="Password" id="password" name="password" required>
 
         <input class="form-submit" type="submit" value="Register">
+        <span class="error" th:style="|display:${display};|">An account already exists with this e-mail.</span>
 
-        <p>You already have an account ? <a href="/login">Sign In</a></p>
-        <a href="/">Home</a>
+        <p>Already have an account? <a href="/login">Sign In</a>, or <a href="/">back home</a></p>
+
     </form>
 </body>
 </html>

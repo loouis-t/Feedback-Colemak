@@ -11,19 +11,19 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form>
+    <form action="/login" method="POST">
         <h3 class="form-title">Welcome</h3>
 
-        <label class="form-label" for="username">Username</label>
-        <input class="form-input" type="text" placeholder="Email" id="username">
+        <label class="form-label" for="email">Email</label>
+        <input class="form-input" type="text" placeholder="Email" name="email" id="email" required>
 
         <label class="form-label" for="password">Password</label>
-        <input class="form-input" type="password" placeholder="Password" id="password">
+        <input class="form-input" type="password" placeholder="Password" name="password" id="password" required>
 
         <input class="form-submit" type="submit" value="Log In">
+        <span class="error" th:style="|display:${display};|">Email or password incorrect.</span>
 
-        <p>You don't have an account ? <a href="/register">Sign Up</a></p>
-        <a href="/">Home</a>
+        <p>Don't have an account? <a href="/register">Sign Up</a>, or <a href="/">back home</a></p>
     </form>
 </body>
 </html>
