@@ -3,8 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Feedback - Register</title>
+    <link rel="stylesheet" href="/resources/static/global.css">
+    <link rel="stylesheet" href="/resources/static/login.css">
 </head>
 <body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form>
+        <h3 class="form-title">Welcome</h3>
 
+        <label class="form-label" for="username">Surname</label>
+        <input class="form-input" type="text" placeholder="Surname" id="surname">
+
+        <label class="form-label" for="username">Firstname</label>
+        <input class="form-input" type="text" placeholder="Firstname" id="firstname">
+
+        <label class="form-label" for="username">Username</label>
+        <input class="form-input" type="text" placeholder="Email" id="username">
+
+        <label class="form-label" for="password">Password</label>
+        <input class="form-input" type="password" placeholder="Password" id="password">
+
+        <input class="form-submit" type="submit" value="Register">
+
+        <p>You already have an account ? <a href="/login">Sign In</a></p>
+    </form>
 </body>
 </html>
