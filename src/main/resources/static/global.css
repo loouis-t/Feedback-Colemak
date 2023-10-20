@@ -6,8 +6,7 @@ html, body {
 
     font-family: system-ui;
 
-    display: grid;
-    place-items: center;
+    background: #FFFFF4;
 }
 
 * {

@@ -8,8 +8,21 @@
     --off-orange: #dab18b;
 }
 
+body {
+    position: relative;
+    padding: 15vh 10vw 5vw 10vw;
+
+    max-width: 100vw;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
 a {
     text-decoration: none;
+    color: black;
 }
 
 /* ----- KEYBOARD ----- */
@@ -17,18 +30,21 @@ a {
     display: block;
     margin-top: -5px;
 }
+
 .keyboard {
     width: 786px;
     height: 270px;
-    margin: 0px auto;
-    border: 3px solid #888888;
+    margin: 0 auto;
     border-radius: 10px;
-    background: #888888;
+    border: 3px solid black;
+    background: black;
 }
+
 .row {
     margin-top: 2px;
     overflow: hidden;
 }
+
 .key {
     width: 50px;
     height: 50px;
@@ -41,21 +57,26 @@ a {
     margin-left: 2px;
     border-radius: 4px;
 }
+
 .key__symbols {
     line-height: 28px;
 }
+
 .key__delete {
     width: 100px;
     background-color: var(--green);
 }
+
 .key__oneandhalf {
     width: 75px;
     background-color: var(--green);
 }
+
 .key__enter {
     width: 112px;
     background-color: var(--green);
 }
+
 .key__caps {
     width: 90px;
     background-color: var(--green);
@@ -65,102 +86,95 @@ a {
     width: 127px;
     background-color: var(--green);
 }
+
 .key__spacebar {
     width: 488px;
     background-color: var(--peach);
 }
+
 .key__bottom-funct {
     width: 70px;
     background-color: var(--green);
 }
+
 .feather {
     margin-top: 10px;
 }
+
 .three {
     background-color: var(--yellow);
 }
+
 .four {
     background-color: var(--off-blue);
 }
+
 .five {
     background-color: var(--off-pink);
 }
+
 .six {
     background-color: var(--off-orange);
 }
+
 .zero {
     background-color: var(--green);
 }
+
 /* ----- END KEYBOARD ----- */
 
 /* ----- HOME HEADER ----- */
 .home-header {
-    width: 50%;
-    margin: 0;
+    position: fixed;
+    top: 2vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    display: flex;
+    gap: 1vh;
 }
-.home-login-button {
-    margin-top: 50px;
-    width: 12%;
+
+.home-header a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10vw;
+    padding: .5vh 2vw;
     background-color: #000000;
     color: #ffffff;
-    padding: 8px 0;
-    font-size: 14px;
-    font-weight: 600;
-    border-radius: 50px;
     border: 2px solid #000000;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.home-register-button {
-    margin-top: 50px;
-    width: 12%;
-    background-color: #000000;
-    color: #ffffff;
-    padding: 8px 0;
-    font-size: 14px;
-    font-weight: 600;
     border-radius: 50px;
-    border: 2px solid #000000;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.home-settings-button {
-    margin-top: 50px;
-    width: 12%;
-    background-color: #000000;
-    color: #ffffff;
-    padding: 8px 0;
     font-size: 14px;
-    font-weight: 600;
-    border-radius: 50px;
-    border: 2px solid #000000;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 300ms;
 }
-.home-login-button:hover {
+
+.home-header a:hover {
     background-color: transparent;
     color: #000000 !important;
 }
-.home-register-button:hover {
-    background-color: transparent;
-    color: #000000;
-}
-.home-settings-button:hover {
-    background-color: transparent;
-    color: #000000;
-}
-    /* --- END HOME HEADER --- */
+
+/* --- END HOME HEADER --- */
 
 /* ----- HOME METRICS ----- */
 /* - Faut que je le fasse - */
 /* --- END HOME METRICS --- */
 
 /* ----- HOME KEYS ----- */
-.home-keys {
-    width: 50%;
-    display: flex;
+ul {
+    list-style: none;
+    padding: 0;
     margin: 0;
 }
+
+.home-keys {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    gap: 2px;
+}
+
 .keys {
     background-color: #cecece;
     border: 1px solid black;
@@ -168,9 +182,11 @@ a {
     height: 30px;
     float: left;
     cursor: pointer;
-    line-height: 28px;
     text-align: center;
-    margin-left: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
 /* --- END HOME KEYS --- */
 
