@@ -4,9 +4,232 @@
     <title>Colemak</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="/resources/static/global.css">
+    <link rel="stylesheet" href="/resources/static/home.css">
     <link rel="icon" href="/resources/img/icon.png">
 </head>
 <body>
-    <p th:text="|Hello, ${name}!|"/>
+    <div class="home-header">
+        <a href="/login"><button class="home-login-button">Login</button></a>
+        <a href="/register"><button class="home-register-button">Register</button></a>
+        <a href="/settings"><button class="home-settings-button">Settings</button></a>
+    </div>
+    <table class="home-keys">
+        <td>All Keys : </td>
+        <td class="keys">E</td>
+        <td class="keys">N</td>
+        <td class="keys">I</td>
+        <td class="keys">T</td>
+        <td class="keys">R</td>
+        <td class="keys">L</td>
+        <td class="keys">S</td>
+        <td class="keys">A</td>
+        <td class="keys">U</td>
+        <td class="keys">O</td>
+        <td class="keys">D</td>
+        <td class="keys">Y</td>
+        <td class="keys">C</td>
+        <td class="keys">H</td>
+        <td class="keys">G</td>
+        <td class="keys">M</td>
+        <td class="keys">P</td>
+        <td class="keys">B</td>
+        <td class="keys">K</td>
+        <td class="keys">V</td>
+        <td class="keys">W</td>
+        <td class="keys">F</td>
+        <td class="keys">Z</td>
+        <td class="keys">X</td>
+        <td class="keys">Q</td>
+        <td class="keys">J</td>
+    </table>
+    <div class="keyboard">
+        <div class="row">
+            <div class="key key__symbols zero">
+                ~ <span> `
+            </div>
+            <div class="key key__symbols">
+                ! <span class="double-carac"> 1
+            </div>
+            <div class="key key__symbols three">
+                @ <span class="double-carac"> 2
+            </div>
+            <div class="key key__symbols four">
+                # <span class="double-carac"> 3
+            </div>
+            <div class="key key__symbols five">
+                $ <span class="double-carac"> 4
+            </div>
+            <div class="key key__symbols five">
+                % <span class="double-carac"> 5
+            </div>
+            <div class="key key__symbols six">
+                ^ <span class="double-carac"> 6
+            </div>
+            <div class="key key__symbols six">
+                & <span class="double-carac"> 7
+            </div>
+            <div class="key key__symbols four">
+                * <span class="double-carac"> 8
+            </div>
+            <div class="key key__symbols three">
+                ( <span class="double-carac"> 9
+            </div>
+            <div class="key key__symbols">
+                ) <span class="double-carac"> 0
+            </div>
+            <div class="key key__symbols zero">
+                _ <span class="double-carac"> -
+            </div>
+            <div class="key key__symbols zero">
+                + <span class="double-carac"> =
+            </div>
+            <div class="key key__delete key__icon">
+                Backspace
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="key key__oneandhalf">
+                Tab
+            </div>
+            <div class="key">
+                Q
+            </div>
+            <div class="key three">
+                W
+            </div>
+            <div class="key four">
+                F
+            </div>
+            <div class="key five">
+                P
+            </div>
+            <div class="key five">
+                G
+            </div>
+            <div class="key six">
+                J
+            </div>
+            <div class="key six">
+                L
+            </div>
+            <div class="key four">
+                U
+            </div>
+            <div class="key three">
+                Y
+            </div>
+            <div class="key key__symbols">
+                ; <span class="double-carac"> :
+            </div>
+            <div class="key key__symbols zero">
+                { <span class="double-carac"> [
+            </div>
+            <div class="key key__symbols zero">
+                } <span class="double-carac"> ]
+            </div>
+            <div class="key key__symbols key__oneandhalf">
+                | <span class="double-carac"> \
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="key key__caps">
+                Caps Lock
+            </div>
+            <div class="key ">
+                A
+            </div>
+            <div class="key three">
+                R
+            </div>
+            <div class="key four">
+                S
+            </div>
+            <div class="key five">
+                T
+            </div>
+            <div class="key five">
+                D
+            </div>
+            <div class="key six">
+                H
+            </div>
+            <div class="key six">
+                N
+            </div>
+            <div class="key four">
+                E
+            </div>
+            <div class="key three">
+                I
+            </div>
+            <div class="key">
+                O
+            </div>
+            <div class="key key__symbols zero">
+                " <span class="double-carac"> '
+            </div>
+            <div class="key key__enter">
+                Enter
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="key key__shift-left">
+                Shift
+            </div>
+            <div class="key">
+                Z
+            </div>
+            <div class="key three">
+                X
+            </div>
+            <div class="key four">
+                C
+            </div>
+            <div class="key five">
+                V
+            </div>
+            <div class="key five">
+                B
+            </div>
+            <div class="key six">
+                K
+            </div>
+            <div class="key six">
+                M
+            </div>
+            <div class="key key__symbols four">
+                < <span class="double-carac"> ,
+            </div>
+            <div class="key key__symbols three">
+                > <span class="double-carac"> .
+            </div>
+            <div class="key key__symbols">
+                ? <span class="double-carac"> /
+            </div>
+            <div class="key key__shift-left">
+                Shift
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="key key__bottom-funct">
+                Ctrl
+            </div>
+            <div class="key key__bottom-funct">
+                Alt
+            </div>
+            <div class="key key__spacebar">
+            </div>
+            <div class="key key__bottom-funct">
+                AltGr
+            </div>
+            <div class="key key__bottom-funct">
+                Ctrl
+            </div>
+        </div>
+    </div>
 </body>
 </html>
