@@ -25,9 +25,9 @@
 
         <label class="form-label" for="password">Password</label>
         <input class="form-input" type="password" placeholder="Password" id="password" name="password" required>
-
-        <input class="form-submit" type="submit" value="Register">
+        <br>
         <span class="error" th:style="|display:${display};|">An account already exists with this e-mail.</span>
+        <input class="form-submit" type="submit" value="Register">
 
         <p>Already have an account? <a href="/login">Sign In</a>, or <a href="/">back home</a></p>
 

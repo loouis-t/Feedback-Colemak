@@ -19,9 +19,9 @@
 
         <label class="form-label" for="password">Password</label>
         <input class="form-input" type="password" placeholder="Password" name="password" id="password" required>
-
-        <input class="form-submit" type="submit" value="Log In">
+        <br>
         <span class="error" th:style="|display:${display};|">Email or password incorrect.</span>
+        <input class="form-submit" type="submit" value="Log In">
 
         <p>Don't have an account? <a href="/register">Sign Up</a>, or <a href="/">back home</a></p>
     </form>
