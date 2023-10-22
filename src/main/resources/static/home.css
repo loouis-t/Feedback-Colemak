@@ -130,7 +130,7 @@ a {
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-    padding: 1vw;
+    padding: 0 2vw;
     display: flex;
     justify-content: space-between;
 }

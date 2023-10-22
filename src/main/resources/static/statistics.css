@@ -4,6 +4,7 @@ body {
     align-items: center;
     justify-content: center;
 }
+
 .all-times-statistic, .day-statistic {
     padding: 20px;
     width: 60%;
