@@ -29,11 +29,11 @@ public class RegisterController {
                 userRepository.save(user);
                 return "redirect:/login";
             } else {
-                model.addAttribute("display", "block");
+                model.addAttribute("error", "block");
                 return "register";
             }
         }
-        model.addAttribute("display", "none");
+        model.addAttribute("error", "none");
         return "register";
     }
 }

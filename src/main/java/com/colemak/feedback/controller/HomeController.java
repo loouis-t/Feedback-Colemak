@@ -1,16 +1,18 @@
 package com.colemak.feedback.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomeController {
     @GetMapping("/")
-    public String home(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model) {
+    public String home(Model model, HttpSession session) {
 
-        model.addAttribute("name", name);
+        boolean isLoggedIn = session.getAttribute("user") != null;
+        model.addAttribute("activeSession", isLoggedIn ? "flex" : "none");
+        model.addAttribute("noSession", isLoggedIn ? "none" : "flex");
         return "home";
     }
 }

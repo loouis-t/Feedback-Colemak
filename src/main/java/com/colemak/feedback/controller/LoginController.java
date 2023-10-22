@@ -6,8 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import jakarta.servlet.http.HttpSession;
+
 import com.colemak.feedback.FeedbackApplication;
 
 @Controller
@@ -16,16 +18,23 @@ public class LoginController {
     UserRepository userRepository;
 
     @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
-    public String login(@RequestParam(value = "email", required = false) String email, @RequestParam(value = "password", required = false) String password, Model model) throws NoSuchAlgorithmException {
-        if (email != null || password != null) {
+    public String login(@RequestParam(value = "email", required = false) String email, @RequestParam(value = "password", required = false) String password, Model model, HttpSession session) throws NoSuchAlgorithmException {
+        if (email != null && password != null) {
             if (userRepository.findByEmail(email).isPresent() && userRepository.findByEmail(email).get().getPassword().equals(FeedbackApplication.hashString(password))) {
+                session.setAttribute("user", email.toLowerCase());
                 return "redirect:/";
             } else {
-                model.addAttribute("display", "block");
+                model.addAttribute("error", "block");
                 return "login";
             }
         }
-        model.addAttribute("display", "none");
+        model.addAttribute("error", "none");
         return "login";
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
     }
 }
