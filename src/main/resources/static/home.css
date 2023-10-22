@@ -129,12 +129,24 @@ a {
     top: 2vh;
     left: 50%;
     transform: translateX(-50%);
-    width: max-content;
+    width: 100%;
+    padding: 1vw;
+    display: flex;
+    justify-content: space-between;
+}
+
+.home-header .home-buttons {
     display: flex;
     gap: 1vh;
 }
 
-.home-header a {
+h1 {
+    font-weight: lighter;
+    padding: 0;
+    margin: 0;
+}
+
+.home-header .home-buttons a {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -157,8 +169,54 @@ a {
 /* --- END HOME HEADER --- */
 
 /* ----- HOME METRICS ----- */
-/* - Faut que je le fasse - */
 /* --- END HOME METRICS --- */
+
+/* --- TEXT TO TYPE --- */
+
+#wordContainer {
+    font-size: 3vh;
+    letter-spacing: 1px;
+}
+
+#typedLetters {
+    color: grey;
+}
+
+#lettersToType {
+    position: relative;
+    color: black;
+}
+
+#lettersToType::before {
+    content: "_";
+    position: absolute;
+    left: 0;
+    margin-top: 2px;
+    transition: 300ms ease-out opacity;
+    animation: blink 1s infinite;
+}
+
+.key--pressed {
+    filter: brightness(.5);
+}
+
+.error {
+    color: red !important;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* --- END TEXT TO TYPE --- */
 
 /* ----- HOME KEYS ----- */
 ul {
@@ -167,10 +225,17 @@ ul {
     margin: 0;
 }
 
+.keys-and-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+}
+
 .home-keys {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
     margin: 0;
     gap: 2px;
 }
@@ -180,6 +245,7 @@ ul {
     border: 1px solid black;
     width: 30px;
     height: 30px;
+    border-radius: 2px;
     float: left;
     cursor: pointer;
     text-align: center;

@@ -1,5 +1,5 @@
 // Número de palabras del texto
-let numberOfWords = 10;
+let numberOfWords = 25;
 
 
 //Función que recupera el texto del archivo wordlist.txt y lo transforma en una matriz de longitud numberOfWords
@@ -52,7 +52,7 @@ function practice() {
 
         // Cálculo de la precisión
         let accuracy = (text.length - numberOfErrors) * 100 / text.length;
-        document.getElementById("accuracy").innerHTML = accuracy.toFixed(2) + "%";
+        document.getElementById("accuracy").innerHTML = accuracy.toFixed(2);
 
         // Cálculo de CPM
         let cpm = text.length * 60 / elapsedTime;
@@ -68,7 +68,7 @@ function practice() {
                 text = result.join(' ').split('');
                 cursorPosition = 0;
                 numberOfErrors = 0;
-                updateText(text, cursorPosition);
+                updateText(text, cursorPosition, false, true);
                 startTimer(); // Inicia el temporizador cuando se teclea la primera letra
                 waitForUserInput();
             })
@@ -79,12 +79,34 @@ function practice() {
 
     function waitForUserInput() {
         let position = 0;
+        let error = false;
 
         document.addEventListener('keypress', function (event) {
             if (position === 0) {
                 // Primera letra tecleada, temporizador en marcha
                 startTimer();
             }
+
+            // select .key class where textContent is equal to the key pressed
+            // exclude every other key than simple letters
+            const excludedClasses = [
+                'key__symbols',
+                'key__bottom-funct',
+                'key__space',
+                'key__ta',
+                'key__caps',
+                'key__delete',
+                'key__enter',
+                'key__shift-left',
+                'key__oneandhalf'
+            ];
+
+            // Add class key--pressed to the key pressed
+            document.querySelectorAll('.key').forEach(key => {
+                if (excludedClasses.every(exClass => !key.classList.contains(exClass)) && key.textContent.toLocaleLowerCase().trim().includes(event.key)) {
+                    key.classList.add('key--pressed');
+                }
+            });
 
             if (event.key === text[position]) {
                 // El usuario ha escrito la letra correcta
@@ -95,34 +117,48 @@ function practice() {
                     document.removeEventListener('keypress', arguments.callee);
                     stopTimer();
                 } else {
-                    updateText(text, position);
+                    updateText(text, position, error);
+                    error = false;
                 }
             } else {
                 // El usuario ha cometido un error
                 numberOfErrors++;
-                document.getElementById("lettersToType").style.color = "red";
-                document.getElementById("typedLetters").style.color = "red";
+                error = true;
             }
+        });
+
+        // Remove class key--pressed to the key pressed when released
+        document.addEventListener('keyup', function (event) {
+            document.querySelectorAll('.key').forEach(key => key.classList.remove('key--pressed'));
         });
     }
 
     // Actualiza el texto que se muestra en la pantalla después de cada pulsación de tecla del usuario
-    function updateText(text, position) {
-        const typedLetters = text.slice(0, position);
+    function updateText(text, position, error = false, restart = false) {
+        const typedLettersElement = document.getElementById("typedLetters");
         const lettersToType = text.slice(position);
+
+        // Si restart es verdadero, entonces el texto debe ser reiniciado
+        if (restart) {
+            const typedLetters = text.slice(0, position);
+            typedLettersElement.textContent = typedLetters.join('');
+        }
+
+        // Si la posición es 0, entonces el usuario no ha escrito nada todavía
+        if (text[position - 1] !== undefined) {
+            typedLettersElement
+                .innerHTML += `<span class="${error ? 'error' : ''}">${text[position - 1]}</span>`;
+        }
+
         document.getElementById("lettersToType").textContent = lettersToType.join('');
-        document.getElementById("typedLetters").textContent = typedLetters.join('');
-        document.getElementById("lettersToType").style.color = "black";
-        document.getElementById("typedLetters").style.color = "grey";
     }
 }
 
 practice();
 
-
 // Esta función no se usa por el momento
 function azertyToColemak(azertyString) {
-    let colemakString;
+    let colemakString = "";
 
     for (let i = 0; i < azertyString.length; i++) {
         switch (azertyString[i]) {

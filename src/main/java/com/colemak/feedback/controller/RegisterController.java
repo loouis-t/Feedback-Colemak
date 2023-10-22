@@ -19,8 +19,11 @@ public class RegisterController {
 
     @RequestMapping(value = "/register", method = {RequestMethod.GET, RequestMethod.POST})
     public String register(@RequestParam(value = "email", required = false) String email, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "surname", required = false) String surname, @RequestParam(value = "password", required = false) String password, Model model) throws NoSuchAlgorithmException {
+        // check if POST inputs are null
         if (email != null && name != null && surname != null && password != null) {
+            // check if email is already in use
             if (userRepository.findByEmail(email).isEmpty()) {
+                // create new user and save to database
                 User user = new User();
                 user.setEmail(email);
                 user.setName(name);
@@ -29,10 +32,12 @@ public class RegisterController {
                 userRepository.save(user);
                 return "redirect:/login";
             } else {
+                // display error message if email is already in use
                 model.addAttribute("error", "block");
                 return "register";
             }
         }
+        // if nothing is POSTed, display the register page
         model.addAttribute("error", "none");
         return "register";
     }
