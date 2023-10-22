@@ -11,6 +11,7 @@
 <body>
 <div class="home-header">
     <a href="/settings" class="home-settings-button">Settings</a>
+    <a href="/statistics" class="home-stats-button" th:style="|display:${activeSession}|">Statistics</a>
     <a href="/login" class="home-login-button" th:style="|display:${noSession}|">Sign In</a>
     <a href="/register" class="home-register-button" th:style="|display:${noSession}|">Sign Up</a>
     <a href="/logout" class="home-logout-button" th:style="|display:${activeSession}|">Log out</a>
