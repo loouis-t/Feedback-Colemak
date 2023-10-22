@@ -1,0 +1,44 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.all-times-statistic, .day-statistic {
+    padding: 20px;
+    width: 60%;
+    height: 15em;
+}
+.stats-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+
+}
+.statistics {
+    border: 1px solid #ccc;
+    width: 24%;
+    height: 7em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+span {
+    font-weight: bold;
+    font-size: 28px;
+}
+
+.graph {
+    padding: 20px;
+    margin: 25px;
+    width: 60%;
+    height: 40em;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-align: center;
+}
