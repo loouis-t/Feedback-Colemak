@@ -20,9 +20,9 @@
         <h2>Day Statistics</h2>
         <div class="stats-container">
             <p class="statistics">Total Time : <span id="day-total-time"></span></p>
-            <p class="statistics">Total Lessons : <span id="day-total-lessons"></span></p>
-            <p class="statistics">Top Speed (wpm) : <span id="day-top-speed"></span></p>
-            <p class="statistics">Average Speed (wpm) : <span id="day-average-speed"></span></p>
+            <p class="statistics">Total Lessons : <span id="day-total-lessons" th:text="|${totalSessions}|"></span></p>
+            <p class="statistics">Top Speed (wpm) : <span id="day-top-speed" th:text="|${topSpeed}|"></span></p>
+            <p class="statistics">Average Speed (wpm) : <span id="day-average-speed" th:text="|${avgWPM}|"></span></p>
         </div>
     </div>
     <div class="graph">

@@ -17,13 +17,13 @@ public class Statistics {
     private Date time;
 
     @Column
-    private Integer wordsPerMinute;
+    private Double wordsPerMinute;
 
     @Column
-    private Integer accuracy;
+    private Double accuracy;
 
     @Column
-    private Integer clicksPerMinute;
+    private Double clicksPerMinute;
 
     public Integer getId() {
         return id;
@@ -49,27 +49,27 @@ public class Statistics {
         this.time = time;
     }
 
-    public Integer getWordsPerMinute() {
+    public Double getWordsPerMinute() {
         return wordsPerMinute;
     }
 
-    public void setWordsPerMinute(Integer wordsPerMinute) {
+    public void setWordsPerMinute(Double wordsPerMinute) {
         this.wordsPerMinute = wordsPerMinute;
     }
 
-    public Integer getAccuracy() {
+    public Double getAccuracy() {
         return accuracy;
     }
 
-    public void setAccuracy(Integer accuracy) {
+    public void setAccuracy(Double accuracy) {
         this.accuracy = accuracy;
     }
 
-    public Integer getClicksPerMinute() {
+    public Double getClicksPerMinute() {
         return clicksPerMinute;
     }
 
-    public void setClicksPerMinute(Integer clicksPerMinute) {
+    public void setClicksPerMinute(Double clicksPerMinute) {
         this.clicksPerMinute = clicksPerMinute;
     }
 }

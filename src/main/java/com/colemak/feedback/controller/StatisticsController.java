@@ -15,32 +15,46 @@ public class StatisticsController {
 
     @GetMapping("/statistics")
     public String statistics(Model model, HttpSession session) {
-        Statistics test = new Statistics();
+        int totalSessions = -1;
+        double avgWPM = -1;
+        double avgAccuracy = -1;
+        double topSpeed = -1;
 
-        test.setEmail(session.getAttribute("user").toString());
+        // Get current user's email (from current session)
+        String currentUser = session.getAttribute("user").toString();
+
+        // TO BE DELETED : TESTS
+        Statistics test = new Statistics();
+        test.setEmail(currentUser);
+        test.setAccuracy(.5);
+        test.setWordsPerMinute(50.0);
         statisticsRepository.save(test);
 
-        // Récupérer les statistiques de la base de données en fonction de l'email de l'utilisateur
-        Statistics statistics = statisticsRepository.findByEmail(session.getAttribute("user").toString()).get();
+        test = new Statistics();
+        test.setEmail(currentUser);
+        test.setAccuracy(1.0);
+        test.setWordsPerMinute(100.0);
+        statisticsRepository.save(test);
 
-        // Calculer la moyenne des mots par minute
-        int totalSessions = statisticsRepository.countByEmail(session.getAttribute("user").toString());
-        int totalWPM = statisticsRepository.sumWordsPerMinuteByEmail(session.getAttribute("user").toString());
+        // Récupérer les statistiques de la base de données en fonction de l'email de l'utilisateur (check if empty)
+        if (statisticsRepository.findByEmail(currentUser).isPresent()) {
+            // Get total number of sessions
+            totalSessions = statisticsRepository.countByEmail(currentUser);
 
-        int avgWPM = totalWPM / totalSessions;
+            // Divide to get average
+            avgWPM = (double) statisticsRepository.sumWordsPerMinuteByEmail(currentUser) / totalSessions;
 
-        // Calculer la vitesse maximale (topSpeed) en récupérant le maximum des mots par minute
-        int topSpeed = statisticsRepository.findMaxWordsPerMinuteByEmail(session.getAttribute("user").toString());
+            avgAccuracy = (double) statisticsRepository.sumAccuracyByEmail(currentUser) / totalSessions;
 
-        // Mettre à jour l'entité Statistics avec la moyenne des mots par minute
-        statistics.setWordsPerMinute(avgWPM);
-        statisticsRepository.save(statistics);
+            // Calculate topSpeed (max words per minute)
+            topSpeed = statisticsRepository.findMaxWordsPerMinuteByEmail(currentUser);
+        }
 
         // Ajouter les attributs au modèle pour les afficher dans la page
-        model.addAttribute("avgWPM", avgWPM);
-        model.addAttribute("accuracy", statistics.getAccuracy());
-        model.addAttribute("totalSessions", totalSessions);
-        model.addAttribute("topSpeed", topSpeed);
+        model.addAttribute("avgWPM", avgWPM == -1 ? "N/A" : avgWPM);
+        model.addAttribute("accuracy", avgAccuracy == -1 ? "N/A" : avgAccuracy);
+        model.addAttribute("totalSessions", totalSessions == -1 ? "N/A" : totalSessions);
+        model.addAttribute("topSpeed", topSpeed == -1 ? "N/A" : topSpeed);
 
         return "statistics";
     }
