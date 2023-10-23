@@ -3,18 +3,18 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 15vh 10vw 5vw 10vw !important;
 }
-
 .all-times-statistic, .day-statistic {
     padding: 20px;
-    width: 60%;
+    width: 80%;
     height: 15em;
 }
 .stats-container {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
 
 }
 .statistics {
@@ -26,7 +26,7 @@ body {
     align-items: center;
     justify-content: space-evenly;
     font-size: 16px;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 span {
@@ -37,9 +37,52 @@ span {
 .graph {
     padding: 20px;
     margin: 25px;
-    width: 60%;
+    width: 78%;
     height: 40em;
     border: 1px solid #ccc;
-    border-radius: 8px;
+    border-radius: 10px;
     text-align: center;
+}
+
+/* ----- HOME HEADER ----- */
+.home-header {
+    position: fixed;
+    top: 2vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    padding: 0 2vw;
+    display: flex;
+    justify-content: space-between;
+}
+
+.home-header .home-buttons {
+    display: flex;
+    gap: 1vh;
+}
+
+h1 {
+    font-weight: lighter;
+    padding: 0;
+    margin: 0;
+}
+
+.home-header .home-buttons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10vw;
+    padding: .5vh 2vw;
+    background-color: #000000;
+    color: #ffffff;
+    border: 2px solid #000000;
+    border-radius: 50px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.home-header a:hover {
+    background-color: transparent;
+    color: #000000 !important;
 }
