@@ -1,9 +1,6 @@
 package com.colemak.feedback.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
@@ -14,65 +11,65 @@ public class Statistics {
     private Integer id;
 
     @Column
-    private Integer userId;
+    private String email;
 
     @Column
-    private Date TotalTime;
+    private Date time;
 
     @Column
-    private Integer TotalLessons;
+    private Integer wordsPerMinute;
 
     @Column
-    private Integer TopSpeed;
+    private Integer accuracy;
 
     @Column
-    private Integer AverageSpeed;
+    private Integer clicksPerMinute;
 
     public Integer getId() {
         return id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public Date getTotalTime() {
-        return TotalTime;
-    }
-
-    public Integer getTotalLessons() {
-        return TotalLessons;
-    }
-
-    public Integer getTopSpeed() {
-        return TopSpeed;
-    }
-
-    public Integer getAverageSpeed() {
-        return AverageSpeed;
     }
 
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setTotalTime(Date TotalTime) {
-        this.TotalTime = TotalTime;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void setTotalLessons(Integer TotalLessons) {
-        this.TotalLessons = TotalLessons;
+    public Date getTime() {
+        return time;
     }
 
-    public void setTopSpeed(Integer TopSpeed) {
-        this.TopSpeed = TopSpeed;
+    public void setTime(Date time) {
+        this.time = time;
     }
 
-    public void setAverageSpeed(Integer AverageSpeed) {
-        this.AverageSpeed = AverageSpeed;
+    public Integer getWordsPerMinute() {
+        return wordsPerMinute;
+    }
+
+    public void setWordsPerMinute(Integer wordsPerMinute) {
+        this.wordsPerMinute = wordsPerMinute;
+    }
+
+    public Integer getAccuracy() {
+        return accuracy;
+    }
+
+    public void setAccuracy(Integer accuracy) {
+        this.accuracy = accuracy;
+    }
+
+    public Integer getClicksPerMinute() {
+        return clicksPerMinute;
+    }
+
+    public void setClicksPerMinute(Integer clicksPerMinute) {
+        this.clicksPerMinute = clicksPerMinute;
     }
 }

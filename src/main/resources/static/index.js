@@ -68,7 +68,7 @@ function practice() {
                 text = result.join(' ').split('');
                 cursorPosition = 0;
                 numberOfErrors = 0;
-                updateText(text, cursorPosition, false, true);
+                updateText(text, cursorPosition);
                 startTimer(); // Inicia el temporizador cuando se teclea la primera letra
                 waitForUserInput();
             })
@@ -151,10 +151,14 @@ function practice() {
         }
 
         document.getElementById("lettersToType").textContent = lettersToType.join('');
+        document.getElementById("typedLetters").textContent = typedLetters.join('');
+        document.getElementById("lettersToType").style.color = "black";
+        document.getElementById("typedLetters").style.color = "grey";
     }
 }
 
 practice();
+
 
 // Esta función no se usa por el momento
 function azertyToColemak(azertyString) {
