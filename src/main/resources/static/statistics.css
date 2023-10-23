@@ -47,11 +47,11 @@ span {
 /* ----- HOME HEADER ----- */
 .home-header {
     position: fixed;
-    top: 2vh;
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-    padding: 0 2vw;
+    padding: 2vh 2vw;
     display: flex;
     justify-content: space-between;
 }
@@ -86,4 +86,8 @@ h1 {
 .home-header a:hover {
     background-color: transparent;
     color: #000000 !important;
+}
+
+.home-header.blurry {
+    backdrop-filter: blur(300px);
 }

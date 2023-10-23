@@ -37,5 +37,16 @@
         <h2>Performance Graph</h2>
         <!-- The graph can be added here -->
     </div>
+    <script>
+        window.addEventListener('scroll', function() {
+            var scrollPosition = window.scrollY;
+
+            if (scrollPosition > 0) {
+                document.querySelector('.home-header').classList.add('blurry');
+            } else {
+                document.querySelector('.home-header').classList.remove('blurry');
+            }
+        });
+    </script>
 </body>
 </html>
