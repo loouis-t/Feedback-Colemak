@@ -151,9 +151,6 @@ function practice() {
         }
 
         document.getElementById("lettersToType").textContent = lettersToType.join('');
-        document.getElementById("typedLetters").textContent = typedLetters.join('');
-        document.getElementById("lettersToType").style.color = "black";
-        document.getElementById("typedLetters").style.color = "grey";
     }
 }
 
