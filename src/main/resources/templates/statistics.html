@@ -18,19 +18,21 @@
     <div class="all-times-statistic">
         <h2>All Times Statistics</h2>
         <div class="stats-container">
-            <p class="statistics">Total Time : <span id="total-time"></span></p>
-            <p class="statistics">Total Lessons : <span id="total-lessons"></span></p>
-            <p class="statistics">Top Speed (wpm) : <span id="top-speed" ></span></p>
+            <p class="statistics">Total Time : <span id="total-time" th:text="|${totalTime}|"></span></p>
+            <p class="statistics">Total Lessons : <span id="total-lessons" th:text="|${totalSessions}|"></span></p>
+            <p class="statistics">Top Speed (wpm) : <span id="top-speed" th:text="|${topSpeed}|"></span></p>
             <p class="statistics">Average Speed (wpm) : <span id="average-speed" th:text="|${avgWPM}|"></span></p>
+            <p class="statistics">Average Accuracy (%) : <span id="average-accuracy" th:text="|${avgAccuracy}|"></span></p>
         </div>
     </div>
     <div class="day-statistic">
         <h2>Day Statistics</h2>
         <div class="stats-container">
-            <p class="statistics">Total Time : <span id="day-total-time"></span></p>
-            <p class="statistics">Total Lessons : <span id="day-total-lessons" th:text="|${totalSessions}|"></span></p>
-            <p class="statistics">Top Speed (wpm) : <span id="day-top-speed" th:text="|${topSpeed}|"></span></p>
-            <p class="statistics">Average Speed (wpm) : <span id="day-average-speed" th:text="|${avgWPM}|"></span></p>
+            <p class="statistics">Total Time : <span id="day-total-time" th:text="|${dayTotalTime}|"></span></p>
+            <p class="statistics">Total Lessons : <span id="day-total-lessons" th:text="|${dayTotalSessions}|"></span></p>
+            <p class="statistics">Top Speed (wpm) : <span id="day-top-speed" th:text="|${dayTopSpeed}|"></span></p>
+            <p class="statistics">Average Speed (wpm) : <span id="day-average-speed" th:text="|${dayAvgWPM}|"></span></p>
+            <p class="statistics">Average Accuracy (%) : <span id="day-average-accuracy" th:text="|${dayAvgAccuracy}|"></span></p>
         </div>
     </div>
     <div class="graph">
