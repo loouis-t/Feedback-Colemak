@@ -2,6 +2,7 @@ package com.colemak.feedback.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -14,7 +15,10 @@ public class Statistics {
     private String email;
 
     @Column
-    private Date time;
+    private LocalDate day;
+
+    @Column
+    private Integer time;
 
     @Column
     private Double wordsPerMinute;
@@ -41,12 +45,12 @@ public class Statistics {
         this.email = email;
     }
 
-    public Date getTime() {
-        return time;
+    public LocalDate getDay() {
+        return day;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setDay(LocalDate day) {
+        this.day = day;
     }
 
     public Double getWordsPerMinute() {
@@ -71,5 +75,13 @@ public class Statistics {
 
     public void setClicksPerMinute(Double clicksPerMinute) {
         this.clicksPerMinute = clicksPerMinute;
+    }
+
+    public Integer getTime() {
+        return time;
+    }
+
+    public void setTime(Integer time) {
+        this.time = time;
     }
 }
