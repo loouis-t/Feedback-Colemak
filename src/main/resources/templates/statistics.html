@@ -5,6 +5,7 @@
     <title>Feedback - Statistics</title>
     <link rel="stylesheet" href="/resources/static/statistics.css">
     <link rel="stylesheet" href="/resources/static/global.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <header class="home-header">
@@ -38,6 +39,7 @@
     <div class="graph">
         <h2>Performance Graph</h2>
         <!-- The graph can be added here -->
+        <canvas id="myChart"></canvas>
     </div>
     <script>
         window.addEventListener('scroll', function() {
@@ -48,6 +50,60 @@
             } else {
                 document.querySelector('.home-header').classList.remove('blurry');
             }
+        });
+
+        // Récupérer les données de vitesse et d'exactitude du modèle pour créer le graphique
+        const dates = [[${dates}]] ;
+        const speeds = [[${speeds}]] ;
+        const accuracies = [[${accuracies}]] ;
+
+        // Récupération du contexte du canvas
+        const ctx = document.getElementById('myChart').getContext('2d');
+
+        // Création du graphique
+        document.addEventListener("DOMContentLoaded", function() {
+            const myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    // Utilisez les dates récupérées de la base de données
+                    labels: dates,
+                    datasets: [
+                        {
+                            label: 'Speed',
+                            data: speeds, // Utilisez les vitesses récupérées de la base de données
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 2,
+                            fill: true
+                        },
+                        {
+                            label: 'Accuracy',
+                            data: accuracies, // Utilisez les exactitudes récupérées de la base de données
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 2,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    xAxes: [{
+                        type: 'linear',
+                        position: 'bottom',
+                        ticks: {
+                            beginAtZero: true,
+                            min: 0
+                            // Définissez d'autres options d'axe X ici si nécessaire
+                        }
+                    }],
+                    yAxes: [{
+                        type: 'linear',
+                        ticks: {
+                            beginAtZero: true,
+                            min: 0
+                            // Définissez d'autres options d'axe Y ici si nécessaire
+                        }
+                    }]
+                }
+            });
         });
     </script>
 </body>

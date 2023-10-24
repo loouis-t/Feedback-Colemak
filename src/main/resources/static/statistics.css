@@ -47,10 +47,14 @@ span {
     padding: 20px;
     margin: 25px;
     width: 77.5%;
-    height: 40em;
+    height: 45rem;
     border: 1px solid #ccc;
     border-radius: 10px;
     text-align: center;
+}
+#myChart {
+    width: 95%;
+    margin-top: 2%;
 }
 
 /* ----- HOME HEADER ----- */

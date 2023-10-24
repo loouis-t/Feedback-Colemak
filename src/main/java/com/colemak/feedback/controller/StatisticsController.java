@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -90,6 +91,34 @@ public class StatisticsController {
         model.addAttribute("dayTopSpeed", dayTopSpeed == -1 ? "N/A" : ((double) Math.round(dayTopSpeed * 10)) / 10);
         model.addAttribute("dayAvgWPM", dayAvgWPM == -1 ? "N/A" : ((double) Math.round(dayAvgWPM * 10)) / 10);
         model.addAttribute("dayAvgAccuracy", dayAvgAccuracy == -1 ? "N/A" : ((double) Math.round(dayAvgAccuracy * 10)) / 10);
+
+        // Récupérer toutes les statistiques de l'utilisateur à partir de la base de données
+        Optional<List<Integer>> statisticsList = statisticsRepository.findByEmail(currentUser);
+
+        // Créer des listes pour les données du graphique
+        List<LocalDate> dates = new ArrayList<>();
+        List<Double> speeds = new ArrayList<>();
+        List<Double> accuracies = new ArrayList<>();
+
+        // Vérifier si des statistiques sont présentes
+        if (statisticsList.isPresent()) {
+            List<Integer> statisticsIds = statisticsList.get();
+
+            for (Integer id : statisticsIds) {
+                Statistics statistic = statisticsRepository.findById(Long.valueOf(id)).orElse(null);
+
+                if (statistic != null) {
+                    dates.add(statistic.getDay());
+                    speeds.add(statistic.getWordsPerMinute());
+                    accuracies.add(statistic.getAccuracy());
+                }
+            }
+        }
+
+        // Ajouter les listes au modèle pour les utiliser dans la vue
+        model.addAttribute("dates", dates);
+        model.addAttribute("speeds", speeds);
+        model.addAttribute("accuracies", accuracies);
 
         return "statistics";
     }
