@@ -190,8 +190,8 @@ h1 {
 #lettersToType::before {
     content: "_";
     position: absolute;
+    top: 2px;
     left: 0;
-    margin-top: 2px;
     transition: 300ms ease-out opacity;
     animation: blink 1s infinite;
 }

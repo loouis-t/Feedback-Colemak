@@ -68,7 +68,7 @@ function practice() {
                 text = result.join(' ').split('');
                 cursorPosition = 0;
                 numberOfErrors = 0;
-                updateText(text, cursorPosition);
+                updateText(text, cursorPosition, false, true);
                 startTimer(); // Inicia el temporizador cuando se teclea la primera letra
                 waitForUserInput();
             })
