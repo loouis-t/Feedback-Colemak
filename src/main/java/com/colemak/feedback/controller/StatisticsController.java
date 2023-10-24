@@ -33,6 +33,10 @@ public class StatisticsController {
         double dayAvgAccuracy = -1;
         double dayTopSpeed = -1;
 
+        // redirect to login page if user is not logged in
+        if (session.getAttribute("user") == null)
+            return "redirect:/login";
+
         // Get current user's email (from current session)
         String currentUser = session.getAttribute("user").toString();
 
@@ -100,8 +104,8 @@ public class StatisticsController {
         }
         model.addAttribute("totalSessions", totalSessions == -1 ? "N/A" : totalSessions);
         model.addAttribute("topSpeed", topSpeed == -1 ? "N/A" : topSpeed);
-        model.addAttribute("avgWPM", avgWPM == -1 ? "N/A" : ((double) Math.round(avgWPM * 10))/10);
-        model.addAttribute("avgAccuracy", avgAccuracy == -1 ? "N/A" : ((double) Math.round(avgAccuracy * 10))/10);
+        model.addAttribute("avgWPM", avgWPM == -1 ? "N/A" : ((double) Math.round(avgWPM * 10)) / 10);
+        model.addAttribute("avgAccuracy", avgAccuracy == -1 ? "N/A" : ((double) Math.round(avgAccuracy * 10)) / 10);
 
         if (dayTotalTime != null) {
             model.addAttribute("dayTotalTime", dayTotalTime);
@@ -110,8 +114,8 @@ public class StatisticsController {
         }
         model.addAttribute("dayTotalSessions", dayTotalSessions == -1 ? "N/A" : dayTotalSessions);
         model.addAttribute("dayTopSpeed", dayTopSpeed == -1 ? "N/A" : dayTopSpeed);
-        model.addAttribute("dayAvgWPM", dayAvgWPM == -1 ? "N/A" : ((double) Math.round(dayAvgWPM * 10))/10);
-        model.addAttribute("dayAvgAccuracy", dayAvgAccuracy == -1 ? "N/A" : ((double) Math.round(dayAvgAccuracy * 10))/10);
+        model.addAttribute("dayAvgWPM", dayAvgWPM == -1 ? "N/A" : ((double) Math.round(dayAvgWPM * 10)) / 10);
+        model.addAttribute("dayAvgAccuracy", dayAvgAccuracy == -1 ? "N/A" : ((double) Math.round(dayAvgAccuracy * 10)) / 10);
 
         return "statistics";
     }

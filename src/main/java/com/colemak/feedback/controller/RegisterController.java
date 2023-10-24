@@ -3,6 +3,7 @@ package com.colemak.feedback.controller;
 import com.colemak.feedback.FeedbackApplication;
 import com.colemak.feedback.model.User;
 import com.colemak.feedback.model.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +19,11 @@ public class RegisterController {
     UserRepository userRepository;
 
     @RequestMapping(value = "/register", method = {RequestMethod.GET, RequestMethod.POST})
-    public String register(@RequestParam(value = "email", required = false) String email, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "surname", required = false) String surname, @RequestParam(value = "password", required = false) String password, Model model) throws NoSuchAlgorithmException {
+    public String register(@RequestParam(value = "email", required = false) String email, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "surname", required = false) String surname, @RequestParam(value = "password", required = false) String password, Model model, HttpSession session) throws NoSuchAlgorithmException {
+        // redirect to home page if user is already logged in
+        if (session.getAttribute("user") != null)
+            return "redirect:/";
+
         // check if POST inputs are null
         if (email != null && name != null && surname != null && password != null) {
             // check if email is already in use

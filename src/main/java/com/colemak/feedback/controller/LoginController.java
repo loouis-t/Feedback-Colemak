@@ -19,6 +19,10 @@ public class LoginController {
 
     @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
     public String login(@RequestParam(value = "email", required = false) String email, @RequestParam(value = "password", required = false) String password, Model model, HttpSession session) throws NoSuchAlgorithmException {
+        // redirect to home page if user is already logged in
+        if (session.getAttribute("user") != null)
+            return "redirect:/";
+
         // check if POST inputs are null
         if (email != null && password != null) {
             // check if user exists in DB and if password is correct
