@@ -108,7 +108,7 @@ function practice() {
                 }
             });
 
-            if (event.key === text[position]) {
+            if (event.code === letterToKeyCode(text[position])) {
                 // El usuario ha escrito la letra correcta
                 position++;
 
@@ -156,82 +156,63 @@ function practice() {
 
 practice();
 
-
-// Esta función no se usa por el momento
-function azertyToColemak(azertyString) {
-    let colemakString = "";
-
-    for (let i = 0; i < azertyString.length; i++) {
-        switch (azertyString[i]) {
-            case "q":
-                colemakString += "a";
-                break;
-            case "w":
-                colemakString += "z";
-                break;
-            case "e":
-                colemakString += "k";
-                break;
-            case "r":
-                colemakString += "s";
-                break;
-            case "t":
-                colemakString += "f";
-                break;
-            case "y":
-                colemakString += "o";
-                break;
-            case "u":
-                colemakString += "i";
-                break;
-            case "i":
-                colemakString += "l";
-                break;
-            case "o":
-                colemakString += "m";
-                break;
-            case "p":
-                colemakString += "r";
-                break;
-            case "a":
-                colemakString += "q";
-                break;
-            case "s":
-                colemakString += "d";
-                break;
-            case "d":
-                colemakString += "g";
-                break;
-            case "f":
-                colemakString += "e";
-                break;
-            case "g":
-                colemakString += "t";
-                break;
-            case "j":
-                colemakString += "y";
-                break;
-            case "k":
-                colemakString += "n";
-                break;
-            case "l":
-                colemakString += "u";
-                break;
-            case "z":
-                colemakString += "w";
-                break;
-            case "n":
-                colemakString += "j";
-                break;
-            case "m":
-                colemakString += ",";
-                break;
-            default:
-                colemakString += azertyString[i];
-        }
+function letterToKeyCode(letter) {
+    switch (letter) {
+        case 'a':
+            return 'KeyA';
+        case 'z':
+            return 'KeyW';
+        case 'e':
+            return 'KeyK';
+        case 'r':
+            return 'KeyS';
+        case 't':
+            return 'KeyF';
+        case 'y':
+            return 'KeyO';
+        case 'u':
+            return 'KeyI';
+        case 'i':
+            return 'KeyL';
+        case 'o':
+            return 'Semicolon';
+        case 'p':
+            return 'KeyR';
+        case 'q':
+            return 'KeyQ';
+        case 's':
+            return 'KeyD';
+        case 'd':
+            return 'KeyG';
+        case 'f':
+            return 'KeyE';
+        case 'g':
+            return 'KeyT';
+        case 'h':
+            return 'KeyH';
+        case 'j':
+            return 'KeyY';
+        case 'k':
+            return 'KeyN';
+        case 'l':
+            return 'KeyU';
+        case 'm':
+            return 'KeyM';
+        case 'w':
+            return 'KeyW';
+        case 'x':
+            return 'KeyX';
+        case 'c':
+            return 'KeyC';
+        case 'v':
+            return 'KeyV';
+        case 'b':
+            return 'KeyB';
+        case 'n':
+            return 'KeyJ';
+        default:
+            return 'Space';
     }
-
-    return colemakString;
 }
 
 
