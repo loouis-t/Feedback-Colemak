@@ -24,4 +24,5 @@ h3 {
 a {
     color: black;
     padding: 5vh .5vw;
+    width: max-content;
 }

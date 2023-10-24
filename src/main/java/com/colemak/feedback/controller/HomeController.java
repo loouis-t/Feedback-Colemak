@@ -20,13 +20,15 @@ public class HomeController {
     public String home(Model model, HttpSession session) throws NoSuchAlgorithmException {
 
         // Create a test user (development) : TO DELETE
-        User test = new User();
-        test.setEmail("test");
-        test.setName("test");
-        test.setSurname("test");
-        test.setPassword(FeedbackApplication.hashString("test"));
-        userRepository.save(test);
+        if (userRepository.findByEmail("test").isEmpty()) {
+            User test = new User();
+            test.setEmail("test");
+            test.setName("test");
+            test.setSurname("test");
+            test.setPassword(FeedbackApplication.hashString("test"));
+            userRepository.save(test);
 
+        }
 
         // handle session : display login or logout button
         boolean isLoggedIn = session.getAttribute("user") != null;

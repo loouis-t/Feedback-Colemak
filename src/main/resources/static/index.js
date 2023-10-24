@@ -214,6 +214,3 @@ function letterToKeyCode(letter) {
             return 'Space';
     }
 }
-
-
-
