@@ -3,14 +3,10 @@ package com.colemak.feedback.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 public class Statistics {
     @Id
-    @GeneratedValue
-    private Integer id;
-
     @Column
     private String email;
 
@@ -29,12 +25,16 @@ public class Statistics {
     @Column
     private Double clicksPerMinute;
 
-    public Integer getId() {
-        return id;
+    @ManyToOne
+    @JoinColumn(name = "user_email", nullable = false)
+    private User user;
+
+    public User getUser() {
+        return user;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getEmail() {

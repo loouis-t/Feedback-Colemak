@@ -11,8 +11,8 @@ import java.util.Optional;
 
 @Repository
 public interface StatisticsRepository extends CrudRepository<Statistics, Long> {
-    @Query("SELECT id FROM Statistics WHERE email = ?1")
-    Optional<List<Integer>> findByEmail(String email);
+    //@Query("SELECT email FROM Statistics WHERE email = ?1")
+    Optional<List<Statistics>> findByEmail(String email);
 
     // Méthode pour compter le nombre total de sessions en fonction de l'email de l'utilisateur
     @Query("SELECT COUNT(id) FROM Statistics WHERE email = ?1 AND (?2 is null or day = ?2)")

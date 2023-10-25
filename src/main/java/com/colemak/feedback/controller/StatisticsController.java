@@ -2,6 +2,8 @@ package com.colemak.feedback.controller;
 
 import com.colemak.feedback.model.Statistics;
 import com.colemak.feedback.model.StatisticsRepository;
+import com.colemak.feedback.model.User;
+import com.colemak.feedback.model.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,9 @@ public class StatisticsController {
     @Autowired
     StatisticsRepository statisticsRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
     @GetMapping("/statistics")
     public String statistics(Model model, HttpSession session) {
 
@@ -37,6 +42,11 @@ public class StatisticsController {
         double dayAvgAccuracy = -1;
         double dayTopSpeed = -1;
 
+        // Créer des listes pour les données du graphique
+        List<LocalDate> dates = new ArrayList<>();
+        List<Double> speeds = new ArrayList<>();
+        List<Double> accuracies = new ArrayList<>();
+
         // redirect to login page if user is not logged in
         if (session.getAttribute("user") == null)
             return "redirect:/login";
@@ -48,7 +58,7 @@ public class StatisticsController {
         LocalDate currentDate = LocalDate.now();
 
         // Récupérer toutes les statistiques de la base de données en fonction de l'email de l'utilisateur (check if empty)
-        Optional<List<Integer>> stats = statisticsRepository.findByEmail(currentUser);
+        Optional<List<Statistics>> stats = statisticsRepository.findByEmail(currentUser);
         if (stats.isPresent() && !stats.get().isEmpty()) {
             // Get total time
             totalTime = statisticsRepository.sumTimeByEmail(currentUser, null);
@@ -77,6 +87,12 @@ public class StatisticsController {
 
             // Calculate topSpeed of the day (max words per minute)
             dayTopSpeed = statisticsRepository.findMaxWordsPerMinuteByEmail(currentUser, currentDate);
+
+
+            for (Statistics stat : stats.get()) {
+                speeds.add(stat.getWordsPerMinute());
+                accuracies.add(stat.getAccuracy());
+            }
         }
 
         // Ajouter les attributs au modèle pour les afficher dans la page
@@ -92,31 +108,7 @@ public class StatisticsController {
         model.addAttribute("dayAvgWPM", dayAvgWPM == -1 ? "N/A" : ((double) Math.round(dayAvgWPM * 10)) / 10);
         model.addAttribute("dayAvgAccuracy", dayAvgAccuracy == -1 ? "N/A" : ((double) Math.round(dayAvgAccuracy * 10)) / 10);
 
-        // Récupérer toutes les statistiques de l'utilisateur à partir de la base de données
-        Optional<List<Integer>> statisticsList = statisticsRepository.findByEmail(currentUser);
-
-        // Créer des listes pour les données du graphique
-        List<LocalDate> dates = new ArrayList<>();
-        List<Double> speeds = new ArrayList<>();
-        List<Double> accuracies = new ArrayList<>();
-
-        // Vérifier si des statistiques sont présentes
-        if (statisticsList.isPresent()) {
-            List<Integer> statisticsIds = statisticsList.get();
-
-            for (Integer id : statisticsIds) {
-                Statistics statistic = statisticsRepository.findById(Long.valueOf(id)).orElse(null);
-
-                if (statistic != null) {
-                    dates.add(statistic.getDay());
-                    speeds.add(statistic.getWordsPerMinute());
-                    accuracies.add(statistic.getAccuracy());
-                }
-            }
-        }
-
         // Ajouter les listes au modèle pour les utiliser dans la vue
-        model.addAttribute("dates", dates);
         model.addAttribute("speeds", speeds);
         model.addAttribute("accuracies", accuracies);
 
@@ -136,13 +128,15 @@ public class StatisticsController {
 
             // Create new statistics object
             Statistics statistics = new Statistics();
-
+            User user = userRepository.findByEmail(currentUser).orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+            statistics.setUser(user);
             // Set statistics object's attributes
             statistics.setEmail(currentUser);
             statistics.setWordsPerMinute(wpm);
             statistics.setAccuracy(accuracy);
             statistics.setClicksPerMinute(cpm);
             statistics.setTime(time);
+
             statistics.setDay(LocalDate.now());
 
             // Save statistics object to database

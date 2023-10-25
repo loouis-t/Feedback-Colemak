@@ -1,16 +1,12 @@
 package com.colemak.feedback.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class User {
     @Id
-    @GeneratedValue
-    private Integer id;
-
     @Column
     private String email;
 
@@ -23,6 +19,12 @@ public class User {
     @Column
     private String password;
 
+    @OneToMany(mappedBy = "user")
+    private List<Statistics> statistics;
+
+    public void setStatistics(List<Statistics> statistics) {
+        this.statistics = statistics;
+    }
 
     public String getEmail() {
         return email;
@@ -56,11 +58,4 @@ public class User {
         return surname;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
-        return id;
-    }
 }
