@@ -19,8 +19,12 @@ public class User {
     @Column
     private String password;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Statistics> statistics;
+
+    public List<Statistics> getStatistics() {
+        return statistics;
+    }
 
     public void setStatistics(List<Statistics> statistics) {
         this.statistics = statistics;

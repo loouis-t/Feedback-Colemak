@@ -125,22 +125,30 @@ public class StatisticsController {
         if (wpm != null && accuracy != null && cpm != null && time != null) {
             // Get current user's email (from current session)
             String currentUser = session.getAttribute("user").toString();
-
-            // Create new statistics object
-            Statistics statistics = new Statistics();
             User user = userRepository.findByEmail(currentUser).orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
-            statistics.setUser(user);
-            // Set statistics object's attributes
+
+            // Créer un nouvel objet statistique
+            Statistics statistics = new Statistics();
+
+            // Définir les attributs de l'objet statistique
             statistics.setEmail(currentUser);
             statistics.setWordsPerMinute(wpm);
             statistics.setAccuracy(accuracy);
             statistics.setClicksPerMinute(cpm);
             statistics.setTime(time);
-
             statistics.setDay(LocalDate.now());
 
-            // Save statistics object to database
+            // Associer l'objet statistique à l'utilisateur
+            statistics.setUser(user);
+
+            // Ajouter l'objet statistique à la liste des statistiques de l'utilisateur
+            user.getStatistics().add(statistics);
+
+            // Enregistrer l'objet statistique dans la base de données
             statisticsRepository.save(statistics);
+
+            // Enregistrer l'utilisateur dans la base de données
+            userRepository.save(user);
 
             return new ResponseEntity<>("Data saved successfully", HttpStatus.OK);
         }
