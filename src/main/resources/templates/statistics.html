@@ -42,16 +42,6 @@
         <canvas id="myChart"></canvas>
     </div>
     <script>
-        window.addEventListener('scroll', function() {
-            var scrollPosition = window.scrollY;
-
-            if (scrollPosition > 0) {
-                document.querySelector('.home-header').classList.add('blurry');
-            } else {
-                document.querySelector('.home-header').classList.remove('blurry');
-            }
-        });
-
         // Récupérer les données de vitesse et d'exactitude du modèle pour créer le graphique
         const dates = [[${dates}]] ;
         const speeds = [[${speeds}]] ;

@@ -67,6 +67,7 @@ span {
     padding: 2vh 2vw;
     display: flex;
     justify-content: space-between;
+    backdrop-filter: blur(15px);
 }
 
 .home-header .home-buttons {
@@ -99,8 +100,4 @@ h1 {
 .home-header a:hover {
     background-color: transparent;
     color: #000000 !important;
-}
-
-.home-header.blurry {
-    backdrop-filter: blur(300px);
 }
