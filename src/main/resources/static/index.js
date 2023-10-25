@@ -81,13 +81,7 @@ function practice() {
             },
             body: data,
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+        .then(response => console.log(response))
     }
 
     function startNewExercise() {
