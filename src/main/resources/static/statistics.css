@@ -47,7 +47,7 @@ span {
     padding: 20px;
     margin: 25px;
     width: 77.5%;
-    height: 45rem;
+    height: max-content;
     border: 1px solid #ccc;
     border-radius: 10px;
     text-align: center;
