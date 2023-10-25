@@ -1,5 +1,5 @@
 // Número de palabras del texto
-let numberOfWords = 2;
+let numberOfWords = 20;
 
 
 //Función que recupera el texto del archivo wordlist.txt y lo transforma en una matriz de longitud numberOfWords
