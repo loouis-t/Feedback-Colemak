@@ -43,9 +43,10 @@
     </div>
     <script>
         // Récupérer les données de vitesse et d'exactitude du modèle pour créer le graphique
-        const dates = [[${dates}]] ;
         const speeds = [[${speeds}]] ;
         const accuracies = [[${accuracies}]] ;
+        const sessions = [...Array(speeds.length).keys()];
+
 
         // Récupération du contexte du canvas
         const ctx = document.getElementById('myChart').getContext('2d');
@@ -56,7 +57,7 @@
                 type: 'line',
                 data: {
                     // Utilisez les dates récupérées de la base de données
-                    labels: dates,
+                    labels: sessions,
                     datasets: [
                         {
                             label: 'Speed',
@@ -79,8 +80,8 @@
                         type: 'linear',
                         position: 'bottom',
                         ticks: {
-                            beginAtZero: true,
-                            min: 0
+                            beginAtZero: false,
+                            min: 1
                             // Définissez d'autres options d'axe X ici si nécessaire
                         }
                     }],
