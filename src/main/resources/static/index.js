@@ -1,5 +1,5 @@
 // Número de palabras del texto
-let numberOfWords = 25;
+let numberOfWords = 20;
 
 
 //Función que recupera el texto del archivo wordlist.txt y lo transforma en una matriz de longitud numberOfWords
@@ -58,8 +58,36 @@ function practice() {
         let cpm = text.length * 60 / elapsedTime;
         document.getElementById("cpm").innerHTML = cpm.toFixed(0);
 
+        // post "/add-stats" route to save stats in database
+        postStats(wpm, accuracy, cpm, elapsedTime);
+
         //Comenzar un nuevo ejercicio después de parar el temporizador
         startNewExercise();
+    }
+
+    // Guarda los datos en la base de datos
+    function postStats(wpm, accuracy, cpm, elapsedTime) {
+        const data = new URLSearchParams({
+            wpm: wpm,
+            accuracy: accuracy,
+            cpm: cpm,
+            elapsedTime: elapsedTime
+        });
+        
+        fetch('/add-stats', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: data,
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
     }
 
     function startNewExercise() {

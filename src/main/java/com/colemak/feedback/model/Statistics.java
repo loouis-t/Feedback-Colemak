@@ -18,7 +18,7 @@ public class Statistics {
     private LocalDate day;
 
     @Column
-    private Integer time;
+    private Double time;
 
     @Column
     private Double wordsPerMinute;
@@ -77,11 +77,11 @@ public class Statistics {
         this.clicksPerMinute = clicksPerMinute;
     }
 
-    public Integer getTime() {
+    public Double getTime() {
         return time;
     }
 
-    public void setTime(Integer time) {
+    public void setTime(Double time) {
         this.time = time;
     }
 }

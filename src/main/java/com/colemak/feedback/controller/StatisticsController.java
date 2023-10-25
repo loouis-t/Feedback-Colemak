@@ -4,9 +4,11 @@ import com.colemak.feedback.model.Statistics;
 import com.colemak.feedback.model.StatisticsRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -21,13 +23,14 @@ public class StatisticsController {
 
     @GetMapping("/statistics")
     public String statistics(Model model, HttpSession session) {
-        Integer totalTime = 0;
+
+        Double totalTime = 0.0;
         int totalSessions = -1;
         double avgWPM = -1;
         double avgAccuracy = -1;
         double topSpeed = -1;
 
-        Integer dayTotalTime = 0;
+        Double dayTotalTime = 0.0;
         int dayTotalSessions = -1;
         double dayAvgWPM = -1;
         double dayAvgAccuracy = -1;
@@ -43,30 +46,9 @@ public class StatisticsController {
         // Get today's date
         LocalDate currentDate = LocalDate.now();
 
-        // TO BE DELETED : TESTS
-        Statistics test = new Statistics();
-        test.setEmail(currentUser);
-        test.setAccuracy(.5);
-        test.setWordsPerMinute(50.0);
-        test.setDay(LocalDate.now());
-        statisticsRepository.save(test);
-
-        test = new Statistics();
-        test.setEmail(currentUser);
-        test.setAccuracy(1.0);
-        test.setWordsPerMinute(100.0);
-        test.setDay(LocalDate.now());
-        statisticsRepository.save(test);
-
-        test = new Statistics();
-        test.setEmail(currentUser);
-        test.setAccuracy(1.0);
-        test.setWordsPerMinute(100.0);
-        test.setDay(LocalDate.now().minusDays(1));
-        statisticsRepository.save(test);
-
         // Récupérer toutes les statistiques de la base de données en fonction de l'email de l'utilisateur (check if empty)
-        if (statisticsRepository.findByEmail(currentUser).isPresent()) {
+        Optional<List<Integer>> stats = statisticsRepository.findByEmail(currentUser);
+        if (stats.isPresent() && !stats.get().isEmpty()) {
             // Get total time
             totalTime = statisticsRepository.sumTimeByEmail(currentUser, null);
 
@@ -97,26 +79,51 @@ public class StatisticsController {
         }
 
         // Ajouter les attributs au modèle pour les afficher dans la page
-        if (totalTime != null) {
-            model.addAttribute("totalTime", totalTime);
-        } else {
-            model.addAttribute("totalTime", "N/A");
-        }
+        model.addAttribute("totalTime", totalTime == null ? "N/A" : ((double) Math.round(totalTime * 10)) / 10);
         model.addAttribute("totalSessions", totalSessions == -1 ? "N/A" : totalSessions);
-        model.addAttribute("topSpeed", topSpeed == -1 ? "N/A" : topSpeed);
+        model.addAttribute("topSpeed", topSpeed == -1 ? "N/A" : ((double) Math.round(topSpeed * 10)) / 10);
         model.addAttribute("avgWPM", avgWPM == -1 ? "N/A" : ((double) Math.round(avgWPM * 10)) / 10);
         model.addAttribute("avgAccuracy", avgAccuracy == -1 ? "N/A" : ((double) Math.round(avgAccuracy * 10)) / 10);
 
-        if (dayTotalTime != null) {
-            model.addAttribute("dayTotalTime", dayTotalTime);
-        } else {
-            model.addAttribute("dayTotalTime", "N/A");
-        }
+        model.addAttribute("dayTotalTime", dayTotalTime == null ? "N/A" : ((double) Math.round(dayTotalTime * 10)) / 10);
         model.addAttribute("dayTotalSessions", dayTotalSessions == -1 ? "N/A" : dayTotalSessions);
-        model.addAttribute("dayTopSpeed", dayTopSpeed == -1 ? "N/A" : dayTopSpeed);
+        model.addAttribute("dayTopSpeed", dayTopSpeed == -1 ? "N/A" : ((double) Math.round(dayTopSpeed * 10)) / 10);
         model.addAttribute("dayAvgWPM", dayAvgWPM == -1 ? "N/A" : ((double) Math.round(dayAvgWPM * 10)) / 10);
         model.addAttribute("dayAvgAccuracy", dayAvgAccuracy == -1 ? "N/A" : ((double) Math.round(dayAvgAccuracy * 10)) / 10);
 
         return "statistics";
     }
+
+    @RequestMapping(value = "/add-stats", method = {RequestMethod.POST})
+    public ResponseEntity<String> addStats(Model model, HttpSession session, @RequestParam(value = "wpm", required = false) Double wpm, @RequestParam(value = "accuracy", required = false) Double accuracy, @RequestParam(value = "cpm", required = false) Double cpm, @RequestParam(value = "elapsedTime", required = false) Double time) {
+        // Check if user is logged in
+        if (session.getAttribute("user") == null)
+            return new ResponseEntity<>("User not logged in", HttpStatus.UNAUTHORIZED);
+
+        // Check if POST inputs are null
+        if (wpm != null && accuracy != null && cpm != null && time != null) {
+            // Get current user's email (from current session)
+            String currentUser = session.getAttribute("user").toString();
+
+            // Create new statistics object
+            Statistics statistics = new Statistics();
+
+            // Set statistics object's attributes
+            statistics.setEmail(currentUser);
+            statistics.setWordsPerMinute(wpm);
+            statistics.setAccuracy(accuracy);
+            statistics.setClicksPerMinute(cpm);
+            statistics.setTime(time);
+            statistics.setDay(LocalDate.now());
+
+            // Save statistics object to database
+            statisticsRepository.save(statistics);
+
+            return new ResponseEntity<>("Data saved successfully", HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>("Invalid data", HttpStatus.BAD_REQUEST);
+    }
 }
+
+

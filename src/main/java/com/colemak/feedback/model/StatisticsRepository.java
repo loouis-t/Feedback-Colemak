@@ -32,5 +32,5 @@ public interface StatisticsRepository extends CrudRepository<Statistics, Long> {
 
     // Méthode pour récupérer le temps de chaque session en fonction de l'email de l'utilisateur
     @Query("SELECT SUM(time) FROM Statistics WHERE email = ?1 AND (?2 is null or day = ?2)")
-    Integer sumTimeByEmail(String email, LocalDate day);
+    Double sumTimeByEmail(String email, LocalDate day);
 }
