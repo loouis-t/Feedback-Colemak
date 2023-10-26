@@ -1,31 +1,21 @@
 // Número de palabras del texto
 let numberOfWords = 20;
 
-
-//Función que recupera el texto del archivo wordlist.txt y lo transforma en una matriz de longitud numberOfWords
 function createText(numberOfWords) {
     return new Promise((resolve, reject) => {
-        fetch('/resources/static/wordlist.txt')
-            .then(response => response.text())
+        fetch(`/generateRandomText?numberOfWords=${numberOfWords}`)
+            .then(response => response.json())
             .then(data => {
-                // Divida el texto en una serie de palabras separadas por nuevas líneas
-                const words = data.split('\n');
-
-                const randomWords = [];
-
-                // Obtener una palabra aleatoria de la tabla
-                while (randomWords.length < numberOfWords) {
-                    const randomIndex = Math.floor(Math.random() * words.length);
-                    randomWords.push(words[randomIndex]);
-                }
-
-                resolve(randomWords);
-
+                resolve(data);
             })
-            .catch(error => reject(error));
-
+            .catch(error => {
+                console.error('Erreur lors de la récupération du texte aléatoire :', error);
+                reject(error);
+            });
     });
 }
+
+
 
 
 function practice() {
@@ -84,6 +74,8 @@ function practice() {
         })
         .then(response => console.log(response))
     }
+
+  
 
     function startNewExercise() {
         createText(numberOfWords)
@@ -184,7 +176,7 @@ function letterToKeyCode(letter) {
         case 'a':
             return 'KeyA';
         case 'z':
-            return 'KeyW';
+            return 'KeyZ';
         case 'e':
             return 'KeyK';
         case 'r':
