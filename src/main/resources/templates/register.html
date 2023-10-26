@@ -29,7 +29,7 @@
         <label class="form-label" for="password">Password</label>
         <input class="form-input" type="password" placeholder="Password" id="password" name="password" required>
         <br>
-        <span class="error" th:style="|display:${error};|">An account already exists with this e-mail.</span>
+        <span class="error" th:style="|display:${error};|" th:text="|${typeError == null ? typeError : 'An account already exists with this e-mail.'}|"></span>
         <input class="form-submit" type="submit" value="Sign up">
 
         <p>Already have an account? <a href="/login">Sign in</a>, or <a href="/">back home</a></p>

@@ -1,11 +1,14 @@
 package com.colemak.feedback.controller;
 
 import com.colemak.feedback.FeedbackApplication;
+import com.colemak.feedback.model.Settings;
+import com.colemak.feedback.model.SettingsRepository;
 import com.colemak.feedback.model.User;
 import com.colemak.feedback.model.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +20,9 @@ import java.security.NoSuchAlgorithmException;
 public class RegisterController {
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    SettingsRepository settingsRepository;
 
     @RequestMapping(value = "/register", method = {RequestMethod.GET, RequestMethod.POST})
     public String register(@RequestParam(value = "email", required = false) String email, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "surname", required = false) String surname, @RequestParam(value = "password", required = false) String password, Model model, HttpSession session) throws NoSuchAlgorithmException {
@@ -34,7 +40,24 @@ public class RegisterController {
                 user.setName(name);
                 user.setSurname(surname);
                 user.setPassword(FeedbackApplication.hashString(password));
-                userRepository.save(user);
+
+                try {
+                    Settings userSettings = new Settings();
+                    userSettings.setEmail(email);
+                    userSettings.setTextLength(20);
+                    userSettings.setDarkMode(false);
+                    userSettings.setEmulateColemak(true);
+                    settingsRepository.save(userSettings);
+
+                    user.setSettings(userSettings);
+                    userRepository.save(user);
+                } catch (Exception e) {
+                    System.out.println(e);
+                    model.addAttribute("typeError", "Error while trying to save user settings in db.");
+                    return "register";
+                }
+
+
                 return "redirect:/login";
             } else {
                 // display error message if email is already in use
