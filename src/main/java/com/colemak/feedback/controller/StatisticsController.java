@@ -52,57 +52,118 @@ public class StatisticsController {
             return "redirect:/login";
 
         // Get current user's email (from current session)
-        String currentUser = session.getAttribute("user").toString();
+        String currentUserEmail = session.getAttribute("user").toString();
+
+        // Get corresponding user from DB
+        User currentUser;
+        if (userRepository.findByEmail(currentUserEmail).isPresent())
+            currentUser = userRepository.findByEmail(currentUserEmail).get();
+        else
+            throw new RuntimeException("Utilisateur non trouvé");
 
         // Get today's date
         LocalDate currentDate = LocalDate.now();
 
         // Récupérer toutes les statistiques de la base de données en fonction de l'email de l'utilisateur (check if empty)
-        Optional<List<Statistics>> stats = statisticsRepository.findByEmail(currentUser);
-        if (stats.isPresent() && !stats.get().isEmpty()) {
-            // Get total time
-            totalTime = statisticsRepository.sumTimeByEmail(currentUser, null);
+        //Optional<List<Statistics>> stats = statisticsRepository.findByEmail(currentUser);
+        List<Statistics> currentUserStatistics = currentUser.getStatistics();
+        if (currentUserStatistics != null) {
 
-            // Get total number of sessions
-            totalSessions = statisticsRepository.countByEmail(currentUser, null);
+            // set to O : at this point of the code, we are sure that currentUserStatistics is not null
+            totalSessions = 0;
+            avgWPM = 0;
+            avgAccuracy = 0;
 
-            // Divide to get average
-            avgWPM = (double) statisticsRepository.sumWordsPerMinuteByEmail(currentUser, null) / totalSessions;
+            dayTotalSessions = 0;
+            dayAvgWPM = 0;
+            dayAvgAccuracy = 0;
 
-            avgAccuracy = (double) statisticsRepository.sumAccuracyByEmail(currentUser, null) / totalSessions;
+            // Get precise statistics iterating on stats
+            for (Statistics stat : currentUserStatistics) {
+                // GLOBAL STATS
+                // sum up all time per session
+                totalTime += stat.getTime();
+                // increment number of sessions for each session found
+                totalSessions++;
+                // sum up all words per minute
+                avgWPM += stat.getWordsPerMinute();
+                // sum up all accuracies
+                avgAccuracy += stat.getAccuracy();
 
-            // Calculate topSpeed (max words per minute)
-            topSpeed = statisticsRepository.findMaxWordsPerMinuteByEmail(currentUser, null);
+                // check if current session's words per minute is greater than top speed
+                if (stat.getWordsPerMinute() > topSpeed)
+                    topSpeed = stat.getWordsPerMinute();
 
-            // Get total time of the day
-            dayTotalTime = statisticsRepository.sumTimeByEmail(currentUser, currentDate);
+                // DAILY STATS
+                if (stat.getDay().equals(currentDate)) {
+                    // sum up all time per session
+                    dayTotalTime += stat.getTime();
+                    // increment number of sessions for each session found
+                    dayTotalSessions++;
+                    // sum up all words per minute
+                    dayAvgWPM += stat.getWordsPerMinute();
+                    // sum up all accuracies
+                    dayAvgAccuracy += stat.getAccuracy();
+                    // check if current session's words per minute is greater than top speed
+                    if (stat.getWordsPerMinute() > dayTopSpeed)
+                        dayTopSpeed = stat.getWordsPerMinute();
+                }
 
-            // Get total number of sessions of the day
-            dayTotalSessions = statisticsRepository.countByEmail(currentUser, currentDate);
-
-            // Divide to get average of the day
-            dayAvgWPM = (double) statisticsRepository.sumWordsPerMinuteByEmail(currentUser, currentDate) / totalSessions;
-
-            dayAvgAccuracy = (double) statisticsRepository.sumAccuracyByEmail(currentUser, currentDate) / totalSessions;
-
-            // Calculate topSpeed of the day (max words per minute)
-            dayTopSpeed = statisticsRepository.findMaxWordsPerMinuteByEmail(currentUser, currentDate);
-
-
-            for (Statistics stat : stats.get()) {
                 speeds.add(stat.getWordsPerMinute());
                 accuracies.add(stat.getAccuracy());
             }
+
+            // Divide avg vars by number of sessions to actually get an average
+            // Check if totalSessions is not 0 to avoid division by 0
+            if (totalSessions != 0 && dayTotalSessions != 0) {
+                avgWPM /= totalSessions;
+                avgAccuracy /= totalSessions;
+                dayAvgWPM /= dayTotalSessions;
+                dayAvgAccuracy /= dayTotalSessions;
+            }
+
+            //totalTime = statisticsRepository.sumTimeByEmail(currentUser, null);
+
+            // Get total number of sessions
+            //totalSessions = statisticsRepository.countByEmail(currentUser, null);
+
+            // Divide to get average
+            //avgWPM = (double) statisticsRepository.sumWordsPerMinuteByEmail(currentUser, null) / totalSessions;
+
+            // avgAccuracy = (double) statisticsRepository.sumAccuracyByEmail(currentUser, null) / totalSessions;
+
+            // Calculate topSpeed (max words per minute)
+            //topSpeed = statisticsRepository.findMaxWordsPerMinuteByEmail(currentUser, null);
+
+            // Get total time of the day
+            //dayTotalTime = statisticsRepository.sumTimeByEmail(currentUser, currentDate);
+
+            // Get total number of sessions of the day
+            //dayTotalSessions = statisticsRepository.countByEmail(currentUser, currentDate);
+
+            // Divide to get average of the day
+            //dayAvgWPM = (double) statisticsRepository.sumWordsPerMinuteByEmail(currentUser, currentDate) / totalSessions;
+
+            //dayAvgAccuracy = (double) statisticsRepository.sumAccuracyByEmail(currentUser, currentDate) / totalSessions;
+
+            // Calculate topSpeed of the day (max words per minute)
+            //dayTopSpeed = statisticsRepository.findMaxWordsPerMinuteByEmail(currentUser, currentDate);
+
+
+            //for (Statistics stat : stats.get()) {
+            //    speeds.add(stat.getWordsPerMinute());
+            //    accuracies.add(stat.getAccuracy());
+            //}
         }
 
         // Ajouter les attributs au modèle pour les afficher dans la page
-        model.addAttribute("totalTime", totalTime == null ? "N/A" : ((double) Math.round(totalTime * 10)) / 10);
+        model.addAttribute("totalTime", totalTime == 0.0 ? "N/A" : ((double) Math.round(totalTime * 10)) / 10);
         model.addAttribute("totalSessions", totalSessions == -1 ? "N/A" : totalSessions);
         model.addAttribute("topSpeed", topSpeed == -1 ? "N/A" : ((double) Math.round(topSpeed * 10)) / 10);
         model.addAttribute("avgWPM", avgWPM == -1 ? "N/A" : ((double) Math.round(avgWPM * 10)) / 10);
         model.addAttribute("avgAccuracy", avgAccuracy == -1 ? "N/A" : ((double) Math.round(avgAccuracy * 10)) / 10);
 
-        model.addAttribute("dayTotalTime", dayTotalTime == null ? "N/A" : ((double) Math.round(dayTotalTime * 10)) / 10);
+        model.addAttribute("dayTotalTime", dayTotalTime == 0.0 ? "N/A" : ((double) Math.round(dayTotalTime * 10)) / 10);
         model.addAttribute("dayTotalSessions", dayTotalSessions == -1 ? "N/A" : dayTotalSessions);
         model.addAttribute("dayTopSpeed", dayTopSpeed == -1 ? "N/A" : ((double) Math.round(dayTopSpeed * 10)) / 10);
         model.addAttribute("dayAvgWPM", dayAvgWPM == -1 ? "N/A" : ((double) Math.round(dayAvgWPM * 10)) / 10);
@@ -156,5 +217,3 @@ public class StatisticsController {
         return new ResponseEntity<>("Invalid data", HttpStatus.BAD_REQUEST);
     }
 }
-
-
