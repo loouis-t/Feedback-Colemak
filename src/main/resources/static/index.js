@@ -52,6 +52,7 @@ function practice() {
 
         // Cálculo de la precisión
         let accuracy = (text.length - numberOfErrors) * 100 / text.length;
+        accuracy = accuracy < 0 ? 0 : accuracy;
         document.getElementById("accuracy").innerHTML = accuracy.toFixed(2);
 
         // Cálculo de CPM
