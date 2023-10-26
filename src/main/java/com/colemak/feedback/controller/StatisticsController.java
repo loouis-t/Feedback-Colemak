@@ -65,7 +65,6 @@ public class StatisticsController {
         LocalDate currentDate = LocalDate.now();
 
         // Récupérer toutes les statistiques de la base de données en fonction de l'email de l'utilisateur (check if empty)
-        //Optional<List<Statistics>> stats = statisticsRepository.findByEmail(currentUser);
         List<Statistics> currentUserStatistics = currentUser.getStatistics();
         if (currentUserStatistics != null) {
 
@@ -121,39 +120,6 @@ public class StatisticsController {
                 dayAvgWPM /= dayTotalSessions;
                 dayAvgAccuracy /= dayTotalSessions;
             }
-
-            //totalTime = statisticsRepository.sumTimeByEmail(currentUser, null);
-
-            // Get total number of sessions
-            //totalSessions = statisticsRepository.countByEmail(currentUser, null);
-
-            // Divide to get average
-            //avgWPM = (double) statisticsRepository.sumWordsPerMinuteByEmail(currentUser, null) / totalSessions;
-
-            // avgAccuracy = (double) statisticsRepository.sumAccuracyByEmail(currentUser, null) / totalSessions;
-
-            // Calculate topSpeed (max words per minute)
-            //topSpeed = statisticsRepository.findMaxWordsPerMinuteByEmail(currentUser, null);
-
-            // Get total time of the day
-            //dayTotalTime = statisticsRepository.sumTimeByEmail(currentUser, currentDate);
-
-            // Get total number of sessions of the day
-            //dayTotalSessions = statisticsRepository.countByEmail(currentUser, currentDate);
-
-            // Divide to get average of the day
-            //dayAvgWPM = (double) statisticsRepository.sumWordsPerMinuteByEmail(currentUser, currentDate) / totalSessions;
-
-            //dayAvgAccuracy = (double) statisticsRepository.sumAccuracyByEmail(currentUser, currentDate) / totalSessions;
-
-            // Calculate topSpeed of the day (max words per minute)
-            //dayTopSpeed = statisticsRepository.findMaxWordsPerMinuteByEmail(currentUser, currentDate);
-
-
-            //for (Statistics stat : stats.get()) {
-            //    speeds.add(stat.getWordsPerMinute());
-            //    accuracies.add(stat.getAccuracy());
-            //}
         }
 
         // Ajouter les attributs au modèle pour les afficher dans la page
