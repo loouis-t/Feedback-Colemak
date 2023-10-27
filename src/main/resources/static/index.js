@@ -1,7 +1,4 @@
-// Número de palabras del texto
-let numberOfWords = 20;
-
-function createText(numberOfWords) {
+function createText() {
     return new Promise((resolve, reject) => {
         fetch('/generateRandomText')
             .then(response => response.json())
@@ -75,7 +72,7 @@ function practice() {
 
 
     function startNewExercise() {
-        createText(numberOfWords)
+        createText()
             .then(function (result) {
                 text = result.join(' ').split('');
                 cursorPosition = 0;
@@ -140,7 +137,7 @@ function practice() {
         });
 
         // Remove class key--pressed to the key pressed when released
-        document.addEventListener('keyup', function (event) {
+        document.addEventListener('keyup', function (_) {
             document.querySelectorAll('.key').forEach(key => key.classList.remove('key--pressed'));
         });
     }
