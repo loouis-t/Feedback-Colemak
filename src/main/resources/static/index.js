@@ -3,7 +3,7 @@ let numberOfWords = 20;
 
 function createText(numberOfWords) {
     return new Promise((resolve, reject) => {
-        fetch(`/generateRandomText?numberOfWords=${numberOfWords}`)
+        fetch('/generateRandomText')
             .then(response => response.json())
             .then(data => {
                 resolve(data);
@@ -14,8 +14,6 @@ function createText(numberOfWords) {
             });
     });
 }
-
-
 
 
 function practice() {
@@ -64,7 +62,7 @@ function practice() {
             cpm: cpm,
             elapsedTime: elapsedTime
         });
-        
+
         fetch('/add-stats', {
             method: 'POST',
             headers: {
@@ -72,10 +70,9 @@ function practice() {
             },
             body: data,
         })
-        .then(response => console.log(response))
+            .then(response => console.log(response))
     }
 
-  
 
     function startNewExercise() {
         createText(numberOfWords)

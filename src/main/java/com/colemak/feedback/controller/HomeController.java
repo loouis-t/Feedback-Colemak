@@ -1,6 +1,8 @@
 package com.colemak.feedback.controller;
 
 import com.colemak.feedback.FeedbackApplication;
+import com.colemak.feedback.model.Settings;
+import com.colemak.feedback.model.SettingsRepository;
 import com.colemak.feedback.model.User;
 import com.colemak.feedback.model.UserRepository;
 import jakarta.servlet.http.HttpSession;
@@ -8,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
@@ -36,7 +37,6 @@ public class HomeController {
             test.setSurname("test");
             test.setPassword(FeedbackApplication.hashString("test"));
             userRepository.save(test);
-
         }
 
         // handle session : display login or logout button
@@ -48,11 +48,26 @@ public class HomeController {
 
     @GetMapping("/generateRandomText")
     @ResponseBody
-    public List<String> generateRandomText(@RequestParam int numberOfWords) {
+    public List<String> generateRandomText(HttpSession session) {
 
-        String filePath = "src/main/java/com/colemak/feedback/controller/wordlist.txt";
-
+        String filePath = "src/main/resources/wordlist.txt";
         List<String> randomWords = new ArrayList<>();
+
+        // Set default number of words
+        int numberOfWords = 20;
+
+        // Get current sessions's email or null
+        Object sessionEmail = session.getAttribute("user");
+
+        // If user is logged in, get its text length preference from its settings
+        if (sessionEmail != null && userRepository.findByEmail(sessionEmail.toString()).isPresent()) {
+            // Get corresponding user from DB
+            User currentUser = userRepository.findByEmail(sessionEmail.toString()).get();
+
+            // Get user's text length preference from its settings
+            numberOfWords = currentUser.getSettings().getTextLength();
+        }
+
 
         try {
             // Lire le contenu du fichier wordlist.txt
