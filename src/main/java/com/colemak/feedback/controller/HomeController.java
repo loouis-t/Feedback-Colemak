@@ -1,10 +1,7 @@
 package com.colemak.feedback.controller;
 
 import com.colemak.feedback.FeedbackApplication;
-import com.colemak.feedback.model.Settings;
-import com.colemak.feedback.model.SettingsRepository;
-import com.colemak.feedback.model.User;
-import com.colemak.feedback.model.UserRepository;
+import com.colemak.feedback.model.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +25,8 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model, HttpSession session) throws NoSuchAlgorithmException {
+
+        List<ByLetterStatistics> byLetterStatistics;
 
         // Create a test user (development) : TO DELETE
         if (userRepository.findByEmail("test").isEmpty()) {
@@ -64,10 +63,10 @@ public class HomeController {
             // Get corresponding user from DB
             User currentUser = userRepository.findByEmail(sessionEmail.toString()).get();
 
-            // Get user's text length preference from its settings
-            numberOfWords = currentUser.getSettings().getTextLength();
+            // Get user's text length preference from its settings (check if settings exist)
+            if (currentUser.getSettings() != null)
+                numberOfWords = currentUser.getSettings().getTextLength();
         }
-
 
         try {
             // Lire le contenu du fichier wordlist.txt

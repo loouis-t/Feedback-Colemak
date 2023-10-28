@@ -17,7 +17,8 @@ public class Settings {
     @Column
     boolean emulateColemak;
 
-    @OneToOne(mappedBy = "settings", cascade = CascadeType.ALL)
+    @OneToOne
+    @JoinColumn(name = "user_email")
     private User user;
 
     public String getEmail() {

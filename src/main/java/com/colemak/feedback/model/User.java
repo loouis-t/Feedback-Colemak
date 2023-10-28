@@ -19,12 +19,23 @@ public class User {
     @Column
     private String password;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "email")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    //@JoinColumn(name = "email")
     private Settings settings;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Statistics> statistics;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ByLetterStatistics> byLetterStatistics;
+
+    public List<ByLetterStatistics> getByLetterStatistics() {
+        return byLetterStatistics;
+    }
+
+    public void setByLetterStatistics(List<ByLetterStatistics> byLetterStatistics) {
+        this.byLetterStatistics = byLetterStatistics;
+    }
 
     public Settings getSettings() {
         return settings;
