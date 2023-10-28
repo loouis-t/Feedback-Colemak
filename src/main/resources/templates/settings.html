@@ -3,8 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title>Feedback · Settings</title>
+    <link rel="stylesheet" href="/resources/static/global.css">
+    <link rel="stylesheet" href="/resources/static/settings.css">
 </head>
 <body>
-    <h1>Settings</h1>
+    <header class="home-header">
+        <a href="/"><h1>Feedback</h1></a>
+        <div class="home-buttons">
+            <a href="/" class="home-home-button">Home</a>
+            <a href="/statistics" class="home-stats-button" th:style="|display:${activeSession}|">Statistics</a>
+            <a href="/logout" class="home-logout-button" th:style="|display:${activeSession}|">Log out</a>
+        </div>
+    </header>
+    <div class="settings">
+        <div class="setting">
+            <h2>Interface</h2>
+            <label class="switch">
+                <input class="switch__input" type="checkbox" role="switch">
+            </label>
+            <p>Change the interface theme. Dark mode is easier on the eyes and can help you focus on the text.</p>
+        </div>
+
+        <div class="setting">
+            <h2>Lesson</h2>
+            <p>Number of words: <span id="demo"></span></p>
+            <input type="range" min="1" max="100" value="5" class="slider" id="myRange">
+            <p>Adjust the number of words in the lesson text. Making lessons longer can improve your learning.</p>
+        </div>
+
+        <div class="setting">
+            <h2>Keyboard</h2>
+            <label for="keyboard-emulation">Emulate layout</label>
+            <input type="checkbox" id="keyboard-emulation" name="keyboard-emulation" value="keyboard-emulation">
+            <p>Keyboard emulation ignores the keyboard layout configured in your system and allows you to practice the selected keyboard regardless of how your system is configured. In most cases it is safe to keep the emulation option enabled.</p>
+        </div>
+    </div>
+    <script>
+        var slider = document.getElementById("myRange");
+        var output = document.getElementById("demo");
+        output.innerHTML = slider.value;
+        slider.oninput = function() {
+            output.innerHTML = this.value;
+        }
+    </script>
 </body>
 </html>
