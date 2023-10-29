@@ -1,3 +1,14 @@
+:root {
+    --hue: 223;
+    --bg: hsl(var(--hue), 10%, 90%);
+    --fg: hsl(var(--hue), 10%, 10%);
+    --primary: hsl(var(--hue), 90%, 50%);
+    --trans-dur: 0.3s;
+    --trans-timing: cubic-bezier(0.76, 0.05, 0.24, 0.95);
+    --trans-timing-in: cubic-bezier(0.76, 0.05, 0.86, 0.06);
+    --trans-timing-out: cubic-bezier(0.05, 0.76, 0.06, 0.86);
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -16,6 +27,7 @@ body {
     display: flex;
     justify-content: space-between;
 }
+
 .home-header a {
     text-decoration: none;
     color: #000000;
@@ -30,6 +42,7 @@ h1 {
     font-weight: lighter;
     padding: 0;
     margin: 0;
+    color: var(--fg);
 }
 
 .home-header .home-buttons a {
@@ -61,6 +74,7 @@ h1 {
     align-items: start;
     padding: 1vw;
 }
+
 .setting {
     border: 1px solid black;
     border-radius: 5px;
@@ -70,82 +84,64 @@ h1 {
 
 }
 
-:root {
-    --hue: 223;
-    --bg: hsl(var(--hue),10%,90%);
-    --fg: hsl(var(--hue),10%,10%);
-    --primary: hsl(var(--hue),90%,50%);
-    --trans-dur: 0.3s;
-    --trans-timing: cubic-bezier(0.76,0.05,0.24,0.95);
-    --trans-timing-in: cubic-bezier(0.76,0.05,0.86,0.06);
-    --trans-timing-out: cubic-bezier(0.05,0.76,0.06,0.86);
-}
 body:has(.switch__input:checked) {
     background-color: var(--fg);
     color: var(--bg);
 }
+
+body:has(.switch__input:checked) h1 {
+    color: var(--bg);
+}
+
 .switch {
     margin: auto;
     position: relative;
 }
+
 .switch__input {
-    display: block;
-    background-color: #A2CCB6;
-    border-radius: 100px;
-    box-shadow:
-            0 0 0 0.125em hsla(var(--hue),90%,50%,0),
-            0.125em 0.125em 0.25em hsla(var(--hue),90%,10%,0.2);
-    outline: transparent;
     position: relative;
     width: 3rem;
     height: 1.5rem;
+    display: block;
+    background-color: #A2CCB6;
+    border-radius: 100px;
+    outline: none;
     -webkit-appearance: none;
     appearance: none;
     -webkit-tap-highlight-color: transparent;
-    transition:
-            background-color var(--trans-dur) var(--trans-timing),
-            box-shadow 0.15s linear;
+    transition: background-color var(--trans-dur) var(--trans-timing),
+    box-shadow .15s linear;
+}
 
-}
-.switch__input:focus-visible {
-    box-shadow:
-            0 0 0 0.125em hsl(var(--hue),90%,50%),
-            0.125em 0.125em 0.25em hsla(var(--hue),90%,10%,0.2);
-}
-.switch__input:before,
+/*.switch__input:before,*/
 .switch__input:after {
     content: "";
     display: block;
     position: absolute;
 }
-.switch__input:before {
-    background-color: #EE786E;
-    border-radius: inherit;
-    mask-image: linear-gradient(120deg,hsl(0,0%,0%) 20%,hsla(0,0%,0%,0) 80%);
-    inset: 0;
-    transition: background-color var(--trans-dur) var(--trans-timing);
-}
+
 .switch__input:after {
     background-color: #000000;
     border-radius: 50%;
-    box-shadow: 0.05em 0.05em 0.05em hsla(var(--hue),90%,10%,0.1);
-    top: 0.16em;
-    left: 0.25em;
+    box-shadow: 0.05em 0.05em 0.05em hsla(var(--hue), 90%, 10%, 0.1);
+    /* top: 0.16em; */
+    top: 50%;
+    left: .25em;
+    transform: translateY(-50%);
     width: 1.5em;
     height: 1.5em;
-    transition:
-            background-color var(--trans-dur) var(--trans-timing),
-            transform var(--trans-dur) var(--trans-timing);
+    transition: all var(--trans-dur) var(--trans-timing),
+    transform var(--trans-dur) var(--trans-timing);
     z-index: 1;
 }
+
 .switch__input:checked {
     background-color: hsl(157, 10%, 41%);
 }
-.switch__input:checked:before {
-    background-color: hsl(0, 68%, 19%);
-}
+
 .switch__input:checked:after {
     background-color: hsl(0, 0%, 100%);
-    transform: translateX(1.65em);
+    left: calc(100% - .25em - 1.5em);
 }
+
 
