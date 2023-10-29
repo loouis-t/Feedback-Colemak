@@ -1,5 +1,6 @@
 package com.colemak.feedback.controller;
 
+import com.colemak.feedback.model.User;
 import com.colemak.feedback.model.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,16 @@ public class LoginController {
         // redirect to home page if user is already logged in
         if (session.getAttribute("user") != null)
             return "redirect:/";
+
+        // TODO : Delete this block -> Create a test user (development)
+        if (userRepository.findByEmail("test").isEmpty()) {
+            User test = new User();
+            test.setEmail("test");
+            test.setName("test");
+            test.setSurname("test");
+            test.setPassword(FeedbackApplication.hashString("test"));
+            userRepository.save(test);
+        }
 
         // check if POST inputs are null
         if (email != null && password != null) {

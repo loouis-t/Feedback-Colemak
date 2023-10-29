@@ -25,23 +25,27 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model, HttpSession session) throws NoSuchAlgorithmException {
-
-        List<ByLetterStatistics> byLetterStatistics;
-
-        // Create a test user (development) : TO DELETE
-        if (userRepository.findByEmail("test").isEmpty()) {
-            User test = new User();
-            test.setEmail("test");
-            test.setName("test");
-            test.setSurname("test");
-            test.setPassword(FeedbackApplication.hashString("test"));
-            userRepository.save(test);
-        }
-
         // handle session : display login or logout button
-        boolean isLoggedIn = session.getAttribute("user") != null;
+        Object currentUserSessionEmail = session.getAttribute("user");
+
+
+        boolean isLoggedIn = currentUserSessionEmail != null;
         model.addAttribute("activeSession", isLoggedIn ? "flex" : "none");
         model.addAttribute("noSession", isLoggedIn ? "none" : "flex");
+
+        if (isLoggedIn) {
+            // Set letters statistics attributes
+            User currentUser = null;
+            if (userRepository.findByEmail(currentUserSessionEmail.toString()).isPresent())
+                currentUser = userRepository.findByEmail(currentUserSessionEmail.toString()).get();
+
+            // Get user's letters statistics from its settings (check if settings exist)
+            if (currentUser != null) {
+                model.addAttribute("lettersStatistics", currentUser.getByLetterStatistics());
+            }
+        }
+
+
         return "home";
     }
 
@@ -83,8 +87,6 @@ public class HomeController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        System.out.println(randomWords);
 
         return randomWords;
     }

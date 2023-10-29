@@ -22,7 +22,8 @@
 <div class="keys-and-stats">
     <ul class="home-keys">
         <li>All Keys :</li>
-        <li class="keys">E</li>
+        <li th:each="key : ${lettersStatistics}" class="keys" th:text="${key.getLetter()}"></li>
+        <!-- <li class="keys">E</li>
         <li class="keys">N</li>
         <li class="keys">I</li>
         <li class="keys">T</li>
@@ -47,7 +48,7 @@
         <li class="keys">Z</li>
         <li class="keys">X</li>
         <li class="keys">Q</li>
-        <li class="keys">J</li>
+        <li class="keys">J</li> -->
     </ul>
 
     <div id="stats">
