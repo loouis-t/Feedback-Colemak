@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="/resources/static/global.css">
     <link rel="stylesheet" href="/resources/static/home.css">
-    <link rel="icon" href="/resources/img/icon.png">
+    <link rel="icon" href="/resources/static/img/icon.png">
     <script src="/resources/static/index.js" defer></script>
 </head>
 <body>
@@ -20,10 +20,14 @@
     </div>
 </header>
 <div class="keys-and-stats">
-    <ul class="home-keys">
+    <ul class="home-keys" th:if="${byLetterStatistics != null}">
         <li>All Keys :</li>
-        <li th:each="key : ${lettersStatistics}" class="keys" th:text="${key.getLetter()}"></li>
-        <!-- <li class="keys">E</li>
+        <li class="keys" th:each="letterStatistics : ${byLetterStatistics}" th:text="${letterStatistics.getLetter()}" th:style="|background: ${letterStatistics.getMappedSpeed()};|"></li>
+    </ul>
+
+    <ul class="home-keys" th:unless="${byLetterStatistics != null}">
+        <li>All Keys :</li>
+        <li class="keys">E</li>
         <li class="keys">N</li>
         <li class="keys">I</li>
         <li class="keys">T</li>
@@ -48,7 +52,7 @@
         <li class="keys">Z</li>
         <li class="keys">X</li>
         <li class="keys">Q</li>
-        <li class="keys">J</li> -->
+        <li class="keys">J</li>
     </ul>
 
     <div id="stats">

@@ -1,6 +1,5 @@
 package com.colemak.feedback.controller;
 
-import com.colemak.feedback.FeedbackApplication;
 import com.colemak.feedback.model.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Controller
 public class HomeController {
@@ -40,9 +37,8 @@ public class HomeController {
                 currentUser = userRepository.findByEmail(currentUserSessionEmail.toString()).get();
 
             // Get user's letters statistics from its settings (check if settings exist)
-            if (currentUser != null) {
-                model.addAttribute("lettersStatistics", currentUser.getByLetterStatistics());
-            }
+            if (currentUser != null)
+                model.addAttribute("byLetterStatistics", currentUser.getByLetterStatistics());
         }
 
 

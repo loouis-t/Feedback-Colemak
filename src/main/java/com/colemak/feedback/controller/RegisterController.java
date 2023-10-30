@@ -42,6 +42,9 @@ public class RegisterController {
                 user.setSurname(surname);
                 user.setPassword(FeedbackApplication.hashString(password));
 
+                // save user to database
+                userRepository.save(user);
+
                 // Handle errors while saving settings to DB
                 try {
                     // Create default settings for user
@@ -50,6 +53,7 @@ public class RegisterController {
                     userSettings.setTextLength(20);
                     userSettings.setDarkMode(false);
                     userSettings.setEmulateColemak(true);
+                    userSettings.setUser(user); // TODO : useless ?
                     settingsRepository.save(userSettings);
 
                     // Add these default settings to user
@@ -62,15 +66,12 @@ public class RegisterController {
 
                 // Handle errors while saving ByLetterStatistics to DB
                 try {
-                    user.setByLetterStatistics(createDefaultByLetterStatistics(email));
+                    createDefaultByLetterStatistics(user);
                 } catch (Exception e) {
                     System.out.println(e);
                     model.addAttribute("typeError", "Error while trying to save default ByLetterStatistics in db.");
                     return "register";
                 }
-
-                // save user to database
-                userRepository.save(user);
 
 
                 return "redirect:/login";
@@ -86,28 +87,24 @@ public class RegisterController {
     }
 
     // Create default ByLetterStatistics for a user (one for each letter, corresponding to the user's email)
-    public List<ByLetterStatistics> createDefaultByLetterStatistics(String email) {
-        // Handle null email
-        if (email == null)
-            return null;
-
+    public void createDefaultByLetterStatistics(User user) {
+        Character[] letters = {'E', 'N', 'I', 'T', 'R', 'L', 'S', 'A', 'U', 'O', 'D', 'Y', 'C', 'H', 'G', 'M', 'P', 'B', 'K', 'V', 'W', 'F', 'Z', 'X', 'Q', 'J'};
         // Loop through all letters
-        List<ByLetterStatistics> byLetterStatistics = new ArrayList<>();
         for (int i = 0; i < 26; i++) {
             // Create a new ByLetterStatistics object
             ByLetterStatistics specificLetterStatistic = new ByLetterStatistics();
 
+
             // Set its attributes
-            specificLetterStatistic.setEmail(email);
-            specificLetterStatistic.setLetter((char) (i + 97)); // 97 is the ASCII code for 'a'
+            specificLetterStatistic.setEmail(user.getEmail());
+            specificLetterStatistic.setLetter(letters[i]); // get letter in keybr order
             specificLetterStatistic.setLetterTopSpeed(-1.0);
             specificLetterStatistic.setLetterAvgSpeed(-1.0);
             specificLetterStatistic.setNumberOfSessions(0);
+            specificLetterStatistic.setUser(user);
+
             // Save it to DB
             byLetterStatisticsRepository.save(specificLetterStatistic);
-            // Add it to the list
-            byLetterStatistics.add(specificLetterStatistic);
         }
-        return byLetterStatistics;
     }
 }

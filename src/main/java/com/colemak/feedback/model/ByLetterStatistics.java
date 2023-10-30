@@ -67,8 +67,17 @@ public class ByLetterStatistics {
         this.letterTopSpeed = letterTopSpeed;
     }
 
-    public Double getLetterAvgSpeed() {
-        return letterAvgSpeed;
+    public Double getLetterAvgSpeed() { return letterAvgSpeed; }
+
+    // function to return the color to display for the letter background in home page
+    public String getMappedSpeed() {
+        if (getLetterAvgSpeed() == -1)
+            return "#cecece";
+        else {
+            int palierDeMaitrise = 50;
+            int mappedSpeed = (int) Math.min(Math.round(getLetterAvgSpeed() * 255 / 50), 255);
+            return "rgb(" + (255 - mappedSpeed) + "," + mappedSpeed + ",0)";
+        }
     }
 
     public void setLetterAvgSpeed(Double letterAvgSpeed) {
