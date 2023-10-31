@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/resources/static/settings.css">
 </head>
 <body>
+<!--th:class="${settings.darkMode} ? 'dark-mode' : ''"-->
     <header class="home-header">
         <a href="/"><h1>Feedback</h1></a>
         <div class="home-buttons">
@@ -18,9 +19,10 @@
     <div class="settings">
         <div class="setting">
             <h2>Interface</h2>
-            <label class="switch">
-                <input class="switch__input" type="checkbox" role="switch">
-            </label>
+            <div class="toggle-container">
+                <input type="checkbox" id="toggle" class="toggle" />
+                <label for="toggle" class="switch"></label>
+            </div>
             <p>Change the interface theme. Dark mode is easier on the eyes and can help you focus on the text.</p>
         </div>
 
@@ -33,8 +35,19 @@
 
         <div class="setting">
             <h2>Keyboard</h2>
-            <label for="keyboard-emulation">Emulate layout</label>
-            <input type="checkbox" id="keyboard-emulation" name="keyboard-emulation" value="keyboard-emulation">
+            <div class="checkbox-wrapper-37">
+                <input type="checkbox" name="checkbox" id="terms-checkbox-37" />
+                <label for="terms-checkbox-37" class="terms-label">
+                    <svg class="checkbox-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <mask id="path-1-inside-1_476_5-37" fill="white">
+                            <rect width="200" height="200" />
+                        </mask>
+                        <rect width="200" height="200" class="checkbox-box" stroke-width="40" mask="url(#path-1-inside-1_476_5-37)"/>
+                        <path class="checkbox-tick" d="M52 111.018L76.9867 136L149 64" stroke-width="15"/>
+                    </svg>
+                    <span class="label-text">Checkbox</span>
+                </label>
+            </div>
             <p>Keyboard emulation ignores the keyboard layout configured in your system and allows you to practice the selected keyboard regardless of how your system is configured. In most cases it is safe to keep the emulation option enabled.</p>
         </div>
     </div>
@@ -44,6 +57,56 @@
         output.innerHTML = slider.value;
         slider.oninput = function() {
             output.innerHTML = this.value;
+        }
+
+        const toggleSwitch = document.getElementById('toggle');
+        const body = document.body;
+
+        const darkModeValue = false;
+        setInitialMode(darkModeValue);
+
+        function setInitialMode(darkMode) {
+            if (darkMode) {
+                enableDarkMode();
+            }
+        }
+
+        function enableDarkMode() {
+            body.classList.add('dark-mode');
+            /* Appeler la méthode toggleDarkMode pour mettre à jour la valeur de darkMode dans le modèle ici en vrai */
+            toggleDarkMode();
+        }
+
+        function disableDarkMode() {
+            body.classList.remove('dark-mode');
+            /* Appeler la méthode toggleDarkMode pour mettre à jour la valeur de darkMode dans le modèle ici en faux */
+            toggleDarkMode();
+        }
+
+        toggleSwitch.addEventListener('change', function () {
+            if (this.checked) {
+                enableDarkMode();
+            } else {
+                disableDarkMode();
+            }
+        });
+
+        function toggleDarkMode() {
+            // Effectuer une requête AJAX pour mettre à jour la valeur de darkMode dans la base de données
+            fetch('/settings', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ darkMode: settings.darkMode }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log('Dark mode updated successfully:', data);
+                })
+                .catch((error) => {
+                    console.error('Error updating dark mode:', error);
+                });
         }
     </script>
 </body>
