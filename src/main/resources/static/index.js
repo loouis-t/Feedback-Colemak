@@ -12,14 +12,13 @@ function createText() {
     });
 }
 
-
 function practice() {
 
     let cursorPosition = 0;
     let text = null;
     let startTime = null;
     let numberOfErrors = 0;
-    let emulate = false;
+    let emulate = getColemakEmulationSetting();
 
     function startTimer() {
         startTime = new Date();
@@ -50,6 +49,11 @@ function practice() {
 
         //Comenzar un nuevo ejercicio después de parar el temporizador
         startNewExercise();
+    }
+
+    async function getColemakEmulationSetting() {
+        const response = await fetch('/get-colemak-emulation-setting');
+        return await response.json();
     }
 
     // Guarda los datos en la base de datos
