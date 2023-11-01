@@ -1,6 +1,6 @@
 // This document is mainly used to set the dark mode of the page.
 
-window.onload = () => {
+function handleSessionDarkMode() {
     const darkMode = localStorage.getItem("darkMode");
 
     if (darkMode === "true") {
@@ -9,3 +9,5 @@ window.onload = () => {
         document.body.classList.remove("dark-mode");
     }
 }
+
+handleSessionDarkMode();

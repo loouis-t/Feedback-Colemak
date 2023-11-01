@@ -13,7 +13,7 @@
 <header class="home-header">
     <a href="/"><h1>Feedback</h1></a>
     <div class="home-buttons">
-        <a href="/settings" class="home-settings-button">Settings</a>
+        <a href="/settings" class="home-settings-button" th:style="|display:${activeSession}|">Settings</a>
         <a href="/statistics" class="home-stats-button" th:style="|display:${activeSession}|">Statistics</a>
         <a href="/login" class="home-login-button" th:style="|display:${noSession}|">Sign in</a>
         <a href="/register" class="home-register-button" th:style="|display:${noSession}|">Sign up</a>

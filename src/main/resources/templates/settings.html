@@ -21,7 +21,7 @@
         <div class="setting">
             <h2>Interface</h2>
             <div class="toggle-container">
-                <input type="checkbox" id="toggle" class="toggle" />
+                <input type="checkbox" id="toggle" class="toggle" th:checked="${isInDarkMode}" />
                 <label for="toggle" class="switch"></label>
             </div>
             <p>Change the interface theme. Dark mode is easier on the eyes and can help you focus on the text.</p>
@@ -30,15 +30,18 @@
         <div class="setting">
             <h2>Lesson</h2>
             <p>Number of words: <span id="demo"></span></p>
-            <input type="range" min="1" max="100" value="5" class="slider" id="myRange">
+            <div class="range-container">
+                <input type="range" min="1" max="100" th:value="${textLength}" class="slider" id="range">
+                <label for="range" class="slider-label" th:text="${textLength}"></label>
+            </div>
             <p>Adjust the number of words in the lesson text. Making lessons longer can improve your learning.</p>
         </div>
 
         <div class="setting">
             <h2>Keyboard</h2>
             <div class="checkbox-wrapper-37">
-                <input type="checkbox" name="checkbox" id="terms-checkbox-37" />
-                <label for="terms-checkbox-37" class="terms-label">
+                <input type="checkbox" name="checkbox" id="checkbox" th:checked="${isEmulatingColemak}" />
+                <label for="checkbox" class="terms-label">
                     <svg class="checkbox-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <mask id="path-1-inside-1_476_5-37" fill="white">
                             <rect width="200" height="200" />

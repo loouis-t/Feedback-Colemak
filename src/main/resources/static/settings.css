@@ -147,3 +147,9 @@ h1 {
 .checkbox-wrapper-37 input[type="checkbox"]:checked + .terms-label .checkbox-tick {
     stroke-dashoffset: 0;
 }
+
+.range-container {
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+}
