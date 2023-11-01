@@ -1,4 +1,14 @@
 html, body {
+    --trans-dur: .3s;
+    --trans-timing: cubic-bezier(0.76, 0.05, 0.24, 0.95);
+    --trans-timing-in: cubic-bezier(0.76, 0.05, 0.86, 0.06);
+    --trans-timing-out: cubic-bezier(0.05, 0.76, 0.06, 0.86);
+
+    --secondary: #c9b070;
+    --color: #1a1a1a;
+    --background: #FFFFF4;
+    --buttons: #000000;
+
     padding: 0;
     margin: 0;
     width: 100vw;
@@ -6,9 +16,18 @@ html, body {
 
     font-family: ui-monospace, monospace;
 
-    background: #FFFFF4;
+    background: var(--background) !important;
+    color: var(--color);
 }
 
 * {
     box-sizing: border-box;
+    color: var(--color);
+}
+
+.dark-mode {
+    --secondary: #3f3f3f;
+    --color: #fceeb5;
+    --background: #1a1a1a;
+    --buttons: #fceeb5;
 }

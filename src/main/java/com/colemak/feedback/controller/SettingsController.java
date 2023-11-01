@@ -17,4 +17,11 @@ public class SettingsController {
 
         return "settings";
     }
+
+
+    @GetMapping("setUserSettings")
+    public String setUserSettings(Model model, HttpSession session) throws NoSuchAlgorithmException {
+
+        return "settings";
+    }
 }

@@ -1,25 +1,9 @@
-:root {
-    --hue: #FCEEB5;
-    --bg: hsl(var(--hue), 10%, 90%);
-    --fg: hsl(var(--hue), 10%, 10%);
-    --primary: hsl(var(--hue), 90%, 50%);
-    --trans-dur: 0.3s;
-    --trans-timing: cubic-bezier(0.76, 0.05, 0.24, 0.95);
-    --trans-timing-in: cubic-bezier(0.76, 0.05, 0.86, 0.06);
-    --trans-timing-out: cubic-bezier(0.05, 0.76, 0.06, 0.86);
-    --dark-bg: #1a1a1a;
-    --dark-fg: #ffffff;
-}
-
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 15vh 18vw 5vw 18vw;
-    background-color: var(--bg);
-    color: var(--fg);
-    transition: background-color var(--trans-dur) var(--trans-timing), color var(--trans-dur) var(--trans-timing);
 }
 
 .home-header {
@@ -35,7 +19,6 @@ body {
 
 .home-header a {
     text-decoration: none;
-    color: #000000;
 }
 
 .home-header .home-buttons {
@@ -47,7 +30,7 @@ h1 {
     font-weight: lighter;
     padding: 0;
     margin: 0;
-    color: var(--fg);
+    color: var(--color);
 }
 
 .home-header .home-buttons a {
@@ -56,9 +39,9 @@ h1 {
     justify-content: center;
     width: 10vw;
     padding: .5vh 2vw;
-    background-color: #000000;
-    color: #ffffff;
-    border: 2px solid #000000;
+    background-color: var(--buttons);
+    color: var(--background);
+    border: 2px solid var(--buttons);
     border-radius: 50px;
     font-size: 14px;
     cursor: pointer;
@@ -68,7 +51,7 @@ h1 {
 
 .home-header a:hover {
     background-color: transparent;
-    color: #000000 !important;
+    color: var(--buttons) !important;
 }
 
 .settings {
@@ -89,10 +72,6 @@ h1 {
 
 }
 
-.dark-mode {
-    background-color: var(--dark-bg);
-    color: var(--dark-fg);
-}
 .toggle-container {
     display: flex;
     align-items: center;
@@ -109,7 +88,7 @@ h1 {
     border-radius: 20px;
     position: relative;
     cursor: pointer;
-    background-color: #c9b070;
+    background-color: var(--secondary);
 }
 
 .switch::before {
@@ -120,18 +99,14 @@ h1 {
     border-radius: 50%;
     top: 2px;
     left: 2px;
-    background-color: #fff;
+    background-color: white;
     transition: 0.3s;
-}
-
-.toggle:checked + .switch {
-    background-color: #3f3f3f;
 }
 
 .toggle:checked + .switch::before {
     transform: translateX(20px);
+    background-color: var(--color);
 }
-
 
 .checkbox-wrapper-37 input[type="checkbox"] {
     display: none;
@@ -150,19 +125,19 @@ h1 {
 .checkbox-wrapper-37 .checkbox-svg {
     width: 25px;
     height: 25px;
-    border: 1px solid #A2CCB6;
+    border: 1px solid var(--secondary);
     border-radius: 3px;
 }
 
 .checkbox-wrapper-37 .checkbox-box {
-    fill: #ffffff;
-    stroke: #A2CCB6;
+    fill: none;
+    stroke: var(--secondary);
     stroke-dasharray: 1200;
     stroke-dashoffset: 1200;
     transition: stroke-dashoffset 0.6s ease-in;
 }
 .checkbox-wrapper-37 .checkbox-tick {
-    stroke: #A2CCB6;
+    stroke: var(--secondary);
     stroke-dasharray: 300;
     stroke-dashoffset: 300;
     transition: stroke-dashoffset 0.6s ease-in;
