@@ -64,4 +64,19 @@ public class SettingsController {
 
         return new ResponseEntity<>("Data saved successfully", HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/emulate-colemak", method = {RequestMethod.GET})
+    @ResponseBody
+    public Boolean emulateColemak(HttpSession session) {
+        Object currentSessionObject = session.getAttribute("user");
+
+        // return true to emulate by default if not logged in
+        if (currentSessionObject == null)
+            return true;
+
+        // Get current user's email (from current session)
+        String currentUserEmail = currentSessionObject.toString();
+        // get user's settings or true, to emulate by default
+        return userRepository.findByEmail(currentUserEmail).map(user -> user.getSettings().isEmulateColemak()).orElse(true);
+    }
 }

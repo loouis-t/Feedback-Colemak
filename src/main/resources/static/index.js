@@ -12,20 +12,20 @@ function createText() {
     });
 }
 
-function practice() {
+async function practice() {
 
     let cursorPosition = 0;
     let text = null;
     let startTime = null;
     let numberOfErrors = 0;
-    let emulate = getColemakEmulationSetting();
+    let emulate = await getColemakEmulationSetting();
 
     function startTimer() {
         startTime = new Date();
     }
 
     // Función que detiene el temporizador, calcula las estadísticas y reinicia un nuevo ejercicio.
-    function stopTimer() {
+    async function stopTimer() {
         const endTime = new Date();
         const elapsedTime = (endTime - startTime) / 1000; // Convertit en secondes
         console.log("Temps total de l'exercice : " + elapsedTime + " secondes");
@@ -51,13 +51,14 @@ function practice() {
         startNewExercise();
     }
 
+    // Get colemak emulation setting from database
     async function getColemakEmulationSetting() {
-        const response = await fetch('/get-colemak-emulation-setting');
+        const response = await fetch('/emulate-colemak');
         return await response.json();
     }
 
     // Guarda los datos en la base de datos
-    function postStats(wpm, accuracy, cpm, elapsedTime) {
+    async function postStats(wpm, accuracy, cpm, elapsedTime) {
         const data = new URLSearchParams({
             wpm: wpm,
             accuracy: accuracy,
@@ -65,14 +66,16 @@ function practice() {
             elapsedTime: elapsedTime
         });
 
-        fetch('/add-stats', {
+        const response = await fetch('/add-stats', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: data,
-        })
-            .then(response => console.log(response))
+        });
+
+        if (!response.ok)
+            console.log("An error occurred while saving the stats. Is user logged in ?");
     }
 
 
@@ -168,7 +171,8 @@ function practice() {
     }
 }
 
-practice();
+practice()
+    .catch((error) => console.error('Une erreur s\'est produite :', error));
 
 function letterToKeyCode(letter) {
     switch (letter) {
