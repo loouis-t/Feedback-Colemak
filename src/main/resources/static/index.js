@@ -19,6 +19,7 @@ function practice() {
     let text = null;
     let startTime = null;
     let numberOfErrors = 0;
+    let emulate = false;
 
     function startTimer() {
         startTime = new Date();
@@ -79,14 +80,14 @@ function practice() {
                 numberOfErrors = 0;
                 updateText(text, cursorPosition, false, true);
                 startTimer(); // Inicia el temporizador cuando se teclea la primera letra
-                waitForUserInput();
+                waitForUserInput(emulate);
             })
             .catch(error => console.error('Une erreur s\'est produite :', error));
     }
 
     startNewExercise(); // Comience su primer ejercicio
 
-    function waitForUserInput() {
+    function waitForUserInput(emulate) {
         let position = 0;
         let error = false;
 
@@ -117,7 +118,7 @@ function practice() {
                 }
             });
 
-            if (event.code === letterToKeyCode(text[position])) {
+            if (emulate ? letterToKeyCode(text[position]) === event.code : text[position] === event.key) {
                 // El usuario ha escrito la letra correcta
                 position++;
 
