@@ -72,7 +72,7 @@ public class ByLetterStatistics {
     // function to return the color to display for the letter background in home page
     public String getMappedSpeed() {
         if (getLetterAvgSpeed() == -1)
-            return "#cecece";
+            return "var(--keys)";
         else {
             int palierDeMaitrise = 50;
             int mappedSpeed = (int) Math.min(Math.round(getLetterAvgSpeed() * 255 / 50), 255);
