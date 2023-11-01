@@ -3,8 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Feedback · Ranking</title>
+    <link rel="stylesheet" href="/resources/static/global.css">
+    <link rel="stylesheet" href="/resources/static/ranking.css">
 </head>
 <body>
-
+    <header class="home-header">
+        <a href="/"><h1>Feedback</h1></a>
+        <div class="home-buttons">
+            <a href="/" class="home-home-button">Home</a>
+            <a href="/settings" class="home-settings-button">Settings</a>
+            <a href="/statistics" class="home-statistics-button">Statistics</a>
+            <a href="/logout" class="home-logout-button" th:style="|display:${activeSession}|">Log out</a>
+        </div>
+    </header>
+    <div class="ranking-container">
+        <h1>Leaderboard</h1>
+        <table>
+            <tr>
+                <th>Rank</th>
+                <th>Username</th>
+                <th>WPM</th>
+                <th>Top speed</th>
+            </tr>
+            <tr th:each="user, iterStat : ${users}">
+                <td th:text="${iterStat.count}"></td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.avgWPM}"></td>
+                <td th:text="${user.topSpeed}"></td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>

@@ -81,7 +81,7 @@ h1 {
     margin: 0;
 }
 
-.home-header .home-buttons a {
+.home-header .home-buttons a, .ranking-link .home-ranking-button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -97,8 +97,13 @@ h1 {
     text-decoration: none;
 }
 
-.home-header a:hover {
+.home-header a:hover, .ranking-link .home-ranking-button:hover {
     background-color: transparent;
     border-color: var(--buttons);
     color: var(--buttons) !important;
+}
+
+.ranking-link {
+    width: 77.5%;
+    text-align: left;
 }
