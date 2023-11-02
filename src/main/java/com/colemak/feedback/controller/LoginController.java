@@ -24,16 +24,6 @@ public class LoginController {
         if (session.getAttribute("user") != null)
             return "redirect:/";
 
-        // TODO : Delete this block -> Create a test user (development)
-        if (userRepository.findByEmail("test").isEmpty()) {
-            User test = new User();
-            test.setEmail("test");
-            test.setName("test");
-            test.setSurname("test");
-            test.setPassword(FeedbackApplication.hashString("test"));
-            userRepository.save(test);
-        }
-
         // check if POST inputs are null
         if (email != null && password != null) {
             // check if user exists in DB and if password is correct
