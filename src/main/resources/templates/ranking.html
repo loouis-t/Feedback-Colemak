@@ -22,14 +22,12 @@
             <tr>
                 <th>Rank</th>
                 <th>Username</th>
-                <th>WPM</th>
-                <th>Top speed</th>
+                <th>Average WPM</th>
             </tr>
             <tr th:each="user, iterStat : ${users}">
                 <td th:text="${iterStat.count}"></td>
-                <td th:text="${user.username}"></td>
-                <td th:text="${user.avgWPM}"></td>
-                <td th:text="${user.topSpeed}"></td>
+                <td th:text="${user.name}"></td>
+                <!--<td th:text="${avgSpeedList.get(iterStat)}"></td>-->
             </tr>
         </table>
     </div>
