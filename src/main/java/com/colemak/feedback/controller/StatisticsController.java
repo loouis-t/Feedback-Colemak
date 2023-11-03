@@ -1,9 +1,6 @@
 package com.colemak.feedback.controller;
 
-import com.colemak.feedback.model.Statistics;
-import com.colemak.feedback.model.StatisticsRepository;
-import com.colemak.feedback.model.User;
-import com.colemak.feedback.model.UserRepository;
+import com.colemak.feedback.model.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -143,13 +140,13 @@ public class StatisticsController {
     }
 
     @RequestMapping(value = "/add-stats", method = {RequestMethod.POST})
-    public ResponseEntity<String> addStats(Model model, HttpSession session, @RequestParam(value = "wpm", required = false) Double wpm, @RequestParam(value = "accuracy", required = false) Double accuracy, @RequestParam(value = "cpm", required = false) Double cpm, @RequestParam(value = "elapsedTime", required = false) Double time) {
+    public ResponseEntity<String> addStats(Model model, HttpSession session, @RequestParam(value = "wpm", required = false) Double wpm, @RequestParam(value = "accuracy", required = false) Double accuracy, @RequestParam(value = "cpm", required = false) Double cpm, @RequestParam(value = "elapsedTime", required = false) Double time, @RequestParam(value = "perKeyWpm", required = false) Double[] perKeyWpm) {
         // Check if user is logged in
         if (session.getAttribute("user") == null)
             return new ResponseEntity<>("User not logged in", HttpStatus.UNAUTHORIZED);
 
         // Check if POST inputs are null
-        if (wpm != null && accuracy != null && cpm != null && time != null) {
+        if (wpm != null && accuracy != null && cpm != null && time != null && perKeyWpm != null) {
             // Get current user's email (from current session)
             String currentUser = session.getAttribute("user").toString();
             User user = userRepository.findByEmail(currentUser).orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
@@ -174,6 +171,29 @@ public class StatisticsController {
             // Enregistrer l'objet statistique dans la base de données
             statisticsRepository.save(statistics);
 
+
+            // update user's byLetterStatistics average speeds
+            List<ByLetterStatistics> byLetterStatistics = user.getByLetterStatistics();
+            for (ByLetterStatistics letterStatistics : byLetterStatistics) {
+                int letterIndex = (int) letterStatistics.getLetter() - 'A' + 1;
+                System.out.println(perKeyWpm[letterIndex]);
+                // if letter has been typed at least once
+                if (perKeyWpm[letterIndex] != -1) {
+                    int numberOfSessions = letterStatistics.getNumberOfSessions() + 1;
+                    double oldLetterAvgSpeed = letterStatistics.getLetterAvgSpeed();
+                    double newLetterAvgSpeed = oldLetterAvgSpeed + (perKeyWpm[(int) letterStatistics.getLetter() - 'A' + 1] - oldLetterAvgSpeed) / numberOfSessions;
+
+                    letterStatistics.setNumberOfSessions(numberOfSessions);
+                    letterStatistics.setLetterAvgSpeed(newLetterAvgSpeed);
+
+                    // get old topSpeed then update if current is greater
+                    double topSpeed = letterStatistics.getLetterTopSpeed();
+                    if (perKeyWpm[letterIndex] > topSpeed)
+                        letterStatistics.setLetterTopSpeed(perKeyWpm[letterIndex]);
+                }
+            }
+            user.setByLetterStatistics(byLetterStatistics);
+
             // Enregistrer l'utilisateur dans la base de données
             userRepository.save(user);
 
@@ -181,5 +201,32 @@ public class StatisticsController {
         }
 
         return new ResponseEntity<>("Invalid data", HttpStatus.BAD_REQUEST);
+    }
+
+    // Endpoint to get letter color to display without reloading home page
+    @RequestMapping(value = "/get-letter-stats", method = {RequestMethod.GET})
+    public ResponseEntity<String> getLetterStats(@RequestParam(value = "letter", required = true) Character letter, HttpSession session) {
+        // get current user's email Object from session
+        Object currentUserEmailObject = session.getAttribute("user");
+
+        System.out.println("letter : " + letter);
+
+        // Check if user is logged in
+        if (currentUserEmailObject == null)
+            return new ResponseEntity<>("{\"background\": \"var(--keys)\"}", HttpStatus.UNAUTHORIZED);
+
+        String currentUserEmail = currentUserEmailObject.toString();
+
+        if (letter != null && userRepository.findByEmail(currentUserEmail).isPresent()) {
+            List<ByLetterStatistics> letterStatistics = userRepository.findByEmail(currentUserEmail).get().getByLetterStatistics();
+
+            // return letter color of concerned letter
+            for (ByLetterStatistics stat : letterStatistics) {
+                if (stat.getLetter() == letter)
+                    return new ResponseEntity<>("{\"background\": \"" + stat.getMappedSpeed() + "\"}", HttpStatus.OK);
+            }
+        }
+
+        return new ResponseEntity<>("{\"background\": \"var(--keys)\"}", HttpStatus.BAD_REQUEST);
     }
 }

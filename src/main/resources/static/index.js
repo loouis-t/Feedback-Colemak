@@ -20,6 +20,10 @@ async function practice() {
     let numberOfErrors = 0;
     let emulate = await getColemakEmulationSetting();
 
+    // Tableau des temps de frappe pour chaque lettre
+    let perKeyTimes = Array.from({length: 27}, () => []);
+    let startTimePerKey = null;
+
     function startTimer() {
         startTime = new Date();
     }
@@ -44,8 +48,22 @@ async function practice() {
         let cpm = text.length * 60 / elapsedTime;
         document.getElementById("cpm").innerHTML = cpm.toFixed(0);
 
+        // Cálculo de la velocidad de pulsación de cada tecla
+        let perKeyWpm = Array.from({length: 27}, () => -1);
+        for (let i = 0; i < perKeyTimes.length; i++) {
+            if (perKeyTimes[i].length > 0) {
+                // Calcula el tiempo medio de pulsación de cada tecla
+                let totalLetterTime = perKeyTimes[i].reduce((acc, time) => acc + time, 0);
+                let averageLetterTime = totalLetterTime / perKeyTimes[i].length;
+                // Calcul du WPM en utilisant 60 secondes par minute
+                perKeyWpm[i] = 60 / (averageLetterTime * 5);
+            }
+        }
+
         // post "/add-stats" route to save stats in database
-        postStats(wpm, accuracy, cpm, elapsedTime);
+        await postStats(wpm, accuracy, cpm, elapsedTime, perKeyWpm);
+
+        getLetterStats();
 
         //Comenzar un nuevo ejercicio después de parar el temporizador
         startNewExercise();
@@ -58,12 +76,13 @@ async function practice() {
     }
 
     // Guarda los datos en la base de datos
-    async function postStats(wpm, accuracy, cpm, elapsedTime) {
+    async function postStats(wpm, accuracy, cpm, elapsedTime, perKeyWpm) {
         const data = new URLSearchParams({
             wpm: wpm,
             accuracy: accuracy,
             cpm: cpm,
-            elapsedTime: elapsedTime
+            elapsedTime: elapsedTime,
+            perKeyWpm: perKeyWpm,
         });
 
         const response = await fetch('/add-stats', {
@@ -75,9 +94,17 @@ async function practice() {
         });
 
         if (!response.ok)
-            console.log("An error occurred while saving the stats. Is user logged in ?");
+            console.log("An error occurred while saving the stats. Is user logged in?");
     }
 
+    function getLetterStats() {
+        document.querySelectorAll('.keys').forEach(key => {
+            fetch(`/get-letter-stats?letter=${key.textContent}`)
+                .then(response => response.json())
+                .then(data => key.style.backgroundColor = data["background"])
+                .catch(error => console.error('Une erreur s\'est produite :', error));
+        });
+    }
 
     function startNewExercise() {
         createText()
@@ -87,6 +114,7 @@ async function practice() {
                 numberOfErrors = 0;
                 updateText(text, cursorPosition, false, true);
                 startTimer(); // Inicia el temporizador cuando se teclea la primera letra
+                perKeyTimes = Array.from({length: 27}, () => []);
                 waitForUserInput(emulate);
             })
             .catch(error => console.error('Une erreur s\'est produite :', error));
@@ -102,6 +130,7 @@ async function practice() {
             if (position === 0) {
                 // Primera letra tecleada, temporizador en marcha
                 startTimer();
+                startTimePerKey = new Date();
             }
 
             // select .key class where textContent is equal to the key pressed
@@ -127,6 +156,17 @@ async function practice() {
 
             if (emulate ? letterToKeyCode(text[position]) === event.code : text[position] === event.key) {
                 // El usuario ha escrito la letra correcta
+                let keyTime = (new Date() - startTimePerKey) / 1000;
+                if (keyTime >= 0.004) {
+                    let letter;
+                    if (text[position].charCodeAt(0) !== 32)
+                        letter = text[position].charCodeAt(0) - 96;
+                    else
+                        letter = 0;
+
+                    perKeyTimes[letter].push(keyTime);
+                }
+
                 position++;
 
                 if (position === text.length) {
@@ -136,6 +176,7 @@ async function practice() {
                 } else {
                     updateText(text, position, error);
                     error = false;
+                    startTimePerKey = new Date();
                 }
             } else {
                 // El usuario ha cometido un error
