@@ -9,6 +9,8 @@ html, body {
     --background: #FFFFF4;
     --buttons: #000000;
     --keys: #f5f0e5;
+    --leaderboard-even: #b8dac7;
+    --leaderboard-odd: #ffc2be;
 
     padding: 0;
     margin: 0;
@@ -32,4 +34,6 @@ html, body {
     --background: #1a1a1a;
     --buttons: #fceeb5;
     --keys: #3f3f3f;
+    --leaderboard-even: #495950;
+    --leaderboard-odd: #594443;
 }

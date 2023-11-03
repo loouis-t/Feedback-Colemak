@@ -81,15 +81,15 @@ td {
 }
 
 th {
-    background-color: #bbbbbb;
+    background-color: var(--keys);
 }
 
 tr:nth-child(2n) td {
-    background-color: #b8dac7;
+    background-color: var(--leaderboard-even);
 }
 
 tr:nth-child(2n+1) td {
-    background-color: #ffc2be;
+    background-color: var(--leaderboard-odd);
 }
 
 
