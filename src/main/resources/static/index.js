@@ -149,7 +149,15 @@ async function practice() {
 
             // Add class key--pressed to the key pressed
             document.querySelectorAll('.key').forEach(key => {
-                if (excludedClasses.every(exClass => !key.classList.contains(exClass)) && key.textContent.toLocaleLowerCase().trim().includes(event.key)) {
+                let pressedKeyContent = key.textContent.toLocaleLowerCase().trim();
+
+                if (
+                    excludedClasses.every(exClass => !key.classList.contains(exClass))
+                    && (
+                        (emulate && letterToKeyCode(pressedKeyContent) === event.code)
+                        || (!emulate && pressedKeyContent.includes(event.key))
+                    )
+                ) {
                     key.classList.add('key--pressed');
                 }
             });
