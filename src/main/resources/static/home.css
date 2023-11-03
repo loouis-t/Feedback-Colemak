@@ -25,7 +25,6 @@ a {
     color: black;
 }
 
-/* ----- KEYBOARD ----- */
 .double-carac {
     display: block;
     margin-top: -5px;
@@ -121,9 +120,6 @@ a {
     background-color: var(--green);
 }
 
-/* ----- END KEYBOARD ----- */
-
-/* ----- HOME HEADER ----- */
 .home-header {
     position: fixed;
     top: 2vh;
@@ -167,13 +163,6 @@ h1 {
     color: var(--buttons) !important;
 }
 
-/* --- END HOME HEADER --- */
-
-/* ----- HOME METRICS ----- */
-/* --- END HOME METRICS --- */
-
-/* --- TEXT TO TYPE --- */
-
 #wordContainer {
     font-size: 3vh;
     letter-spacing: 1px;
@@ -216,9 +205,6 @@ h1 {
     }
 }
 
-/* --- END TEXT TO TYPE --- */
-
-/* ----- HOME KEYS ----- */
 ul {
     list-style: none;
     padding: 0;
@@ -254,5 +240,4 @@ ul {
     align-items: center;
 }
 
-/* --- END HOME KEYS --- */
 
