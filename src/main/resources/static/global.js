@@ -11,3 +11,11 @@ function handleSessionDarkMode() {
 }
 
 handleSessionDarkMode();
+
+// Prevent spacebar from scrolling the page
+window.addEventListener('keydown', function(e) {
+    if(e.code === "Space" && e.target === document.body) {
+        e.preventDefault();
+        document.dispatchEvent(new KeyboardEvent('keypress', {code: e.code}));
+    }
+});
