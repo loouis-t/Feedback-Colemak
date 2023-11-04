@@ -20,7 +20,7 @@ async function practice() {
     let numberOfErrors = 0;
     let emulate = await getColemakEmulationSetting();
 
-    // Tableau des temps de frappe pour chaque lettre
+    // Table of typing times for each letter
     let perKeyTimes = Array.from({length: 27}, () => []);
     let startTimePerKey = null;
 
@@ -28,34 +28,34 @@ async function practice() {
         startTime = new Date();
     }
 
-    // Función que detiene el temporizador, calcula las estadísticas y reinicia un nuevo ejercicio.
+    // Function that stops the timer, calculates the statistics and starts a new exercise.
     async function stopTimer() {
         const endTime = new Date();
         const elapsedTime = (endTime - startTime) / 1000; // Convertit en secondes
         console.log("Temps total de l'exercice : " + elapsedTime + " secondes");
 
-        // Cálculo del número de palabras por minuto, suponiendo palabras de 5 letras
+        // Calculation of words per minute, assuming 5 letters words
         let wpm = text.length / 5;
         wpm = wpm * 60 / elapsedTime;
         document.getElementById("wpm").innerHTML = wpm.toFixed(2);
 
-        // Cálculo de la precisión
+        // Calculation of typing accuracy
         let accuracy = (text.length - numberOfErrors) * 100 / text.length;
         accuracy = accuracy < 0 ? 0 : accuracy;
         document.getElementById("accuracy").innerHTML = accuracy.toFixed(2);
 
-        // Cálculo de CPM
+        // Calculation of characters per minute
         let cpm = text.length * 60 / elapsedTime;
         document.getElementById("cpm").innerHTML = cpm.toFixed(0);
 
-        // Cálculo de la velocidad de pulsación de cada tecla
+        // Calculating the speed at which each key is pressed
         let perKeyWpm = Array.from({length: 27}, () => -1);
         for (let i = 0; i < perKeyTimes.length; i++) {
             if (perKeyTimes[i].length > 0) {
-                // Calcula el tiempo medio de pulsación de cada tecla
+                // Calculating the average typing time for each key.
                 let totalLetterTime = perKeyTimes[i].reduce((acc, time) => acc + time, 0);
                 let averageLetterTime = totalLetterTime / perKeyTimes[i].length;
-                // Calcul du WPM en utilisant 60 secondes par minute
+                // Calculation of WPM using 60 seconds per minute
                 perKeyWpm[i] = 60 / (averageLetterTime * 5);
             }
         }
@@ -65,7 +65,7 @@ async function practice() {
 
         getLetterStats();
 
-        //Comenzar un nuevo ejercicio después de parar el temporizador
+        // Start a new exercise after stopping the timer
         startNewExercise();
     }
 
@@ -75,7 +75,7 @@ async function practice() {
         return await response.json();
     }
 
-    // Guarda los datos en la base de datos
+    // Saves the data in the database
     async function postStats(wpm, accuracy, cpm, elapsedTime, perKeyWpm) {
         const data = new URLSearchParams({
             wpm: wpm,
@@ -120,7 +120,8 @@ async function practice() {
             .catch(error => console.error('Une erreur s\'est produite :', error));
     }
 
-    startNewExercise(); // Comience su primer ejercicio
+    startNewExercise(); // Start your first exercise
+
 
     function waitForUserInput(emulate) {
         let position = 0;
@@ -128,7 +129,7 @@ async function practice() {
 
         document.addEventListener('keypress', function (event) {
             if (position === 0) {
-                // Primera letra tecleada, temporizador en marcha
+                // First letter typed, timer started
                 startTimer();
                 startTimePerKey = new Date();
             }
@@ -163,7 +164,7 @@ async function practice() {
             });
 
             if (emulate ? letterToKeyCode(text[position]) === event.code : text[position] === event.key) {
-                // El usuario ha escrito la letra correcta
+                // The user has typed the correct letter
                 let keyTime = (new Date() - startTimePerKey) / 1000;
                 if (keyTime >= 0.004) {
                     let letter;
@@ -178,7 +179,7 @@ async function practice() {
                 position++;
 
                 if (position === text.length) {
-                    // El usuario ha terminado, el temporizador se detiene
+                    // The user has finished, the timer stops
                     document.removeEventListener('keypress', arguments.callee);
                     stopTimer();
                 } else {
@@ -187,7 +188,7 @@ async function practice() {
                     startTimePerKey = new Date();
                 }
             } else {
-                // El usuario ha cometido un error
+                // The user has made a mistake
                 numberOfErrors++;
                 error = true;
             }
@@ -199,18 +200,18 @@ async function practice() {
         });
     }
 
-    // Actualiza el texto que se muestra en la pantalla después de cada pulsación de tecla del usuario
+    // Updates the text displayed on the screen after each keystroke by the user
     function updateText(text, position, error = false, restart = false) {
         const typedLettersElement = document.getElementById("typedLetters");
         const lettersToType = text.slice(position);
 
-        // Si restart es verdadero, entonces el texto debe ser reiniciado
+        // If restart is true, then the text must be restarted
         if (restart) {
             const typedLetters = text.slice(0, position);
             typedLettersElement.textContent = typedLetters.join('');
         }
 
-        // Si la posición es 0, entonces el usuario no ha escrito nada todavía
+        // If the position is 0, then the user has not written anything yet
         if (text[position - 1] !== undefined) {
             typedLettersElement
                 .innerHTML += `<span class="${error ? 'error' : ''}">${text[position - 1]}</span>`;

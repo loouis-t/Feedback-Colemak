@@ -39,7 +39,7 @@ public class StatisticsController {
         double dayAvgAccuracy = -1;
         double dayTopSpeed = -1;
 
-        // Créer des listes pour les données du graphique
+        // Create lists for graph data
         List<LocalDate> dates = new ArrayList<>();
         List<Double> speeds = new ArrayList<>();
         List<Double> accuracies = new ArrayList<>();
@@ -61,7 +61,7 @@ public class StatisticsController {
         // Get today's date
         LocalDate currentDate = LocalDate.now();
 
-        // Récupérer toutes les statistiques de la base de données en fonction de l'email de l'utilisateur (check if empty)
+        // Recover all statistics from the database according to the user's email (check if empty)
         List<Statistics> currentUserStatistics = currentUser.getStatistics();
         if (currentUserStatistics != null) {
 
@@ -119,7 +119,7 @@ public class StatisticsController {
             }
         }
 
-        // Ajouter les attributs au modèle pour les afficher dans la page
+        // Add attributes to the model to display them in the page
         model.addAttribute("totalTime", totalTime == 0.0 ? "N/A" : ((double) Math.round(totalTime * 10)) / 10);
         model.addAttribute("totalSessions", totalSessions == -1 ? "N/A" : totalSessions);
         model.addAttribute("topSpeed", topSpeed == -1 ? "N/A" : ((double) Math.round(topSpeed * 10)) / 10);
@@ -132,7 +132,7 @@ public class StatisticsController {
         model.addAttribute("dayAvgWPM", dayAvgWPM == -1 ? "N/A" : ((double) Math.round(dayAvgWPM * 10)) / 10);
         model.addAttribute("dayAvgAccuracy", dayAvgAccuracy == -1 ? "N/A" : ((double) Math.round(dayAvgAccuracy * 10)) / 10);
 
-        // Ajouter les listes au modèle pour les utiliser dans la vue
+        // Add lists to the model to use them in the view
         model.addAttribute("speeds", speeds);
         model.addAttribute("accuracies", accuracies);
 
@@ -151,10 +151,10 @@ public class StatisticsController {
             String currentUser = session.getAttribute("user").toString();
             User user = userRepository.findByEmail(currentUser).orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
 
-            // Créer un nouvel objet statistique
+            // Create a new statistics object
             Statistics statistics = new Statistics();
 
-            // Définir les attributs de l'objet statistique
+            // Define the attributes of the statistical object
             statistics.setEmail(currentUser);
             statistics.setWordsPerMinute(wpm);
             statistics.setAccuracy(accuracy);
@@ -162,13 +162,13 @@ public class StatisticsController {
             statistics.setTime(time);
             statistics.setDay(LocalDate.now());
 
-            // Associer l'objet statistique à l'utilisateur
+            // Associate the statistical object with the user
             statistics.setUser(user);
 
-            // Ajouter l'objet statistique à la liste des statistiques de l'utilisateur
+            // Add the statistical object to the user's statistics list
             user.getStatistics().add(statistics);
 
-            // Enregistrer l'objet statistique dans la base de données
+            // Save the statistical object in the database
             statisticsRepository.save(statistics);
 
 
@@ -194,7 +194,7 @@ public class StatisticsController {
             }
             user.setByLetterStatistics(byLetterStatistics);
 
-            // Enregistrer l'utilisateur dans la base de données
+            // Save the user in the database
             userRepository.save(user);
 
             return new ResponseEntity<>("Data saved successfully", HttpStatus.OK);

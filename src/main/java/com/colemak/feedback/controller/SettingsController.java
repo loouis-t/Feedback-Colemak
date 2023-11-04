@@ -30,6 +30,7 @@ public class SettingsController {
             return "redirect:/";
 
         String currentUserEmail = currentSessionObject.toString();
+        // get user's settings or default
         userRepository.findByEmail(currentUserEmail).ifPresent(user -> {
             model.addAttribute("isInDarkMode", user.getSettings().isDarkMode());
             model.addAttribute("textLength", user.getSettings().getTextLength());

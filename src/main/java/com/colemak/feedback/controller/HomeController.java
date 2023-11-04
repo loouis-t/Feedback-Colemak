@@ -70,13 +70,13 @@ public class HomeController {
         }
 
         try {
-            // Lire le contenu du fichier wordlist.txt
+            // Read the content of the wordlist.txt file
             Path file = Paths.get(filePath);
             List<String> lines = Files.readAllLines(file);
 
             Random random = new Random();
 
-            // Sélectionner des mots aléatoires
+            // Select random words
             while (randomWords.size() < numberOfWords) {
                 int randomIndex = random.nextInt(lines.size());
                 randomWords.add(lines.get(randomIndex));

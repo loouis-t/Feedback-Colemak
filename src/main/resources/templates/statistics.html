@@ -48,33 +48,33 @@
         <a href="/ranking" class="home-ranking-button">Ranking</a>
     </div>
     <script>
-        // Récupérer les données de vitesse et d'exactitude du modèle pour créer le graphique
+        // Get speed and accuracy data from the model to create the graph
         const speeds = [[${speeds}]] ;
         const accuracies = [[${accuracies}]] ;
         const sessions = [...Array(speeds.length).keys()];
 
 
-        // Récupération du contexte du canvas
+        // Get the canvas context
         const ctx = document.getElementById('myChart').getContext('2d');
 
-        // Création du graphique
+        // Creation of the graph
         document.addEventListener("DOMContentLoaded", function() {
             const myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    // Utilisez les dates récupérées de la base de données
+                    // Use the dates retrieved from the database
                     labels: sessions,
                     datasets: [
                         {
                             label: 'Speed',
-                            data: speeds, // Utilisez les vitesses récupérées de la base de données
+                            data: speeds, // Use the speeds retrieved from the database
                             borderColor: '#EE786E',
                             borderWidth: 2,
                             fill: true
                         },
                         {
                             label: 'Accuracy',
-                            data: accuracies, // Utilisez les exactitudes récupérées de la base de données
+                            data: accuracies, // Use the accuracies retrieved from the database
                             borderColor: '#A2CCB6',
                             borderWidth: 2,
                             fill: true
@@ -88,7 +88,6 @@
                         ticks: {
                             beginAtZero: false,
                             min: 1
-                            // Définissez d'autres options d'axe X ici si nécessaire
                         }
                     }],
                     yAxes: [{
@@ -96,7 +95,6 @@
                         ticks: {
                             beginAtZero: true,
                             min: 0
-                            // Définissez d'autres options d'axe Y ici si nécessaire
                         }
                     }]
                 }

@@ -21,11 +21,13 @@ public class RankingController {
     @GetMapping("/ranking")
     public String ranking(Model model) {
 
+        // Get all users
         List<User> allUsers = userRepository.findAll();
         Map<Double, User> userAvgSpeedMap = new TreeMap<>(Collections.reverseOrder());
         int currentUserTotalSession;
         double currentUserAvgSpeed;
 
+        // Calculate average speed for each user
         for (User user : allUsers) {
             List<Statistics> userStatistics = user.getStatistics();
             if (userStatistics != null) {
@@ -41,6 +43,7 @@ public class RankingController {
                     currentUserAvgSpeed /= currentUserTotalSession;
                 }
 
+                // Round to 2 decimal places
                 userAvgSpeedMap.put((double) Math.round(currentUserAvgSpeed * 100) / 100, user);
             }
         }

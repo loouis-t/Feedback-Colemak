@@ -2,6 +2,7 @@ const darkMode = document.querySelector('#toggle');
 const textLength = document.querySelector('#range');
 const emulateColemak = document.querySelector('#checkbox');
 
+// This function is used to handle the dark mode
 function handleDarkMode() {
     darkMode
         .addEventListener('change', async (e) => {
@@ -23,6 +24,7 @@ function handleDarkMode() {
     } */
 }
 
+// This function is used to update the text length
 function handleTextLength() {
     textLength
         .addEventListener('change', async (e) => {
@@ -32,6 +34,7 @@ function handleTextLength() {
         });
 }
 
+// This function is used to emulate the Colemak keyboard
 function handleEmulateColemak() {
     emulateColemak
         .addEventListener('change', async (e) => {
@@ -44,6 +47,7 @@ handleDarkMode();
 handleTextLength();
 handleEmulateColemak();
 
+// This function is used to update the settings in the database
 async function updateSettings() {
     const data = new URLSearchParams({
         darkMode: darkMode.checked.toString(),
